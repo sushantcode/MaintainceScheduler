@@ -1,0 +1,29 @@
+version: '3.8'
+services:
+  mysqldbContainer:
+    container_name: mysqldbContainer
+    image: mysql:latest
+    volumes:
+      - ./database:/mysql/data
+    environment:
+        MYSQL_ROOT_PASSWORD: root
+        MYSQL_DATABASE: msdatabase
+        MYSQL_USER: user
+        MYSQL_PASSWORD: password
+    ports:
+      - "3306:3306"
+  ms-producer-container:
+    container_name: ms-producer-container
+    build:
+      context: "./MSProducer/"
+      dockerfile: "Dockerfile"
+    image: sushantcode/ms-producer-container:latest
+    environment:
+      # MySql setup
+      - spring_datasource_url=jdbc:mysql://mysqldbContainer:3306/msdatabase?autoReconnect=true&useSSL=false&allowPublicKeyRetrieval=true
+    ports:
+      - "8080:8080"
+    links:
+      - mysqldbContainer
+    depends_on:
+      - mysqldbContainer
