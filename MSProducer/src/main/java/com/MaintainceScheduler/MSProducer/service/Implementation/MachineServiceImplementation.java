@@ -10,6 +10,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
@@ -36,7 +37,11 @@ public class MachineServiceImplementation implements MachineService {
 
     @Override
     public List<Machine> getMachine() {
-        return machineRepository.findAll();
+        List<Machine> machineList = machineRepository.findAll();
+        machineList.sort(
+                Comparator.comparing(Machine::getName)
+        );
+        return machineList;
     }
 
     @Override

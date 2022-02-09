@@ -179,9 +179,35 @@ public class UserController {
     }
 
     @GetMapping("/getMaintenanceRecord")
-    public ResponseEntity<List<Maintenance>> getMaintenanceRecord(@RequestParam String machineId) {
-        List<Maintenance> maintenanceList = maintenanceService.getMaintenanceRecord(machineId);
-        return new ResponseEntity<>(maintenanceList, HttpStatus.OK);
+    public ResponseEntity<?> getMaintenanceRecord(@RequestParam String machineId) {
+        try {
+            List<Maintenance> maintenanceList = maintenanceService.getMaintenanceRecord(machineId);
+            return new ResponseEntity<>(maintenanceList, HttpStatus.OK);
+        }
+        catch (RuntimeException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 
+    @GetMapping("/getParts")
+    public ResponseEntity<?> getParts() {
+        try {
+            List<Part> partList = partService.getParts();
+            return new ResponseEntity<>(partList, HttpStatus.OK);
+        }
+        catch (RuntimeException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @DeleteMapping("/removePart")
+    public ResponseEntity<?> removePart(@RequestParam String partId) {
+        try {
+            partService.removePart(partId);
+            return new ResponseEntity<>("Part has been removed successfully", HttpStatus.OK);
+        }
+        catch (RuntimeException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
 }

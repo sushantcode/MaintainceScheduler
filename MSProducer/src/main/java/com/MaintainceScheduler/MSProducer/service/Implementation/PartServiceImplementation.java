@@ -6,6 +6,9 @@ import com.MaintainceScheduler.MSProducer.service.PartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
+import java.util.List;
+
 @Service
 public class PartServiceImplementation implements PartService {
 
@@ -33,6 +36,25 @@ public class PartServiceImplementation implements PartService {
         }
         else {
             throw new RuntimeException("Part does not exist.");
+        }
+    }
+
+    @Override
+    public List<Part> getParts() {
+        List<Part> partList = partRepository.findAll();
+        partList.sort(
+                Comparator.comparing(Part::getName)
+        );
+        return partRepository.findAll();
+    }
+
+    @Override
+    public void removePart(String partId) {
+        try {
+            partRepository.deleteById(partId);
+        }
+        catch (RuntimeException e) {
+            throw e;
         }
     }
 }
