@@ -67,6 +67,21 @@
 			<artifactId>spring-boot-starter-log4j2</artifactId>
 		</dependency>
 
+<!--				Swagger 2 dependencies						-->
+		<!-- https://mvnrepository.com/artifact/io.springfox/springfox-swagger2 -->
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger2</artifactId>
+			<version>2.9.2</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/io.springfox/springfox-swagger-ui -->
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger-ui</artifactId>
+			<version>2.9.2</version>
+		</dependency>
+
 <!--				Test dependencies									-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
