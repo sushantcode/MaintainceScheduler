@@ -1,16 +1,25 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Navbar from './components/utils/Navbar';
+import NavMenu from './components/utils/NavMenu';
 import Home from './components/pages/Home';
+import Login from './components/utils/Login';
 import './App.css';
+import { Col, Container, Row } from 'react-bootstrap';
 
 function App() {
   return (
     <Router>
-      <Navbar />
-      <Routes>
-        <Route path='/' element={<Home />} />
-      </Routes>
+      <NavMenu />
+      <Container>
+        <Row>
+          <Col lg={12} className={'mt-2'}>
+          <Routes>
+            <Route path='/' element={<Home />} />
+            <Route path='/login' element={<Login />} />
+          </Routes>
+          </Col>
+        </Row>
+      </Container>
     </Router>
   );
 }
