@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import {
   Row,
   Col,
@@ -12,17 +13,21 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faSignInAlt,
-  faEnvelope,
+  faUser,
   faLock,
   faUndo,
 } from "@fortawesome/free-solid-svg-icons";
+import AuthenticationService from "./AuthenticationService";
 
 const Login = (props) => {
   const [error, setError] = useState();
   const [show, setShow] = useState(true);
 
+  let navigate = useNavigate();
+  let authenticationService = new AuthenticationService();
+
   const initialState = {
-    email: "",
+    username: "",
     password: "",
   };
 
@@ -34,17 +39,19 @@ const Login = (props) => {
   };
 
   const validateUser = () => {
-    // dispatch(authenticateUser(user.email, user.password))
-    //   .then((response) => {
-    //     console.log(response.data);
-    //     return props.history.push("/home");
-    //   })
-    //   .catch((error) => {
-    //     console.log(error.message);
-    //     setShow(true);
-    //     resetLoginForm();
-    //     setError("Invalid email and password");
-    //   });
+    authenticationService
+    .executeBasicAuthenticationService(user.username, user.password)
+    .then((response) => {
+      console.log(response.data);
+      authenticationService.registerSuccessfulLogin(user.username, user.password);
+      navigate('/user');
+    })
+    .catch((error) => {
+      console.log(error.message);
+      setShow(true);
+      resetLoginForm();
+      setError("Invalid email and password");
+    });
   };
 
   const resetLoginForm = () => {
@@ -73,17 +80,17 @@ const Login = (props) => {
               <Form.Group as={Col}>
                 <InputGroup>
                     <InputGroup.Text>
-                      <FontAwesomeIcon icon={faEnvelope} />
+                      <FontAwesomeIcon icon={faUser} />
                     </InputGroup.Text>
                   <FormControl
                     required
                     autoComplete="off"
                     type="text"
-                    name="email"
-                    value={user.email}
+                    name="username"
+                    value={user.username}
                     onChange={credentialChange}
                     className={"bg-dark text-white"}
-                    placeholder="Enter Email Address"
+                    placeholder="Enter Username"
                   />
                 </InputGroup>
               </Form.Group>
@@ -114,7 +121,7 @@ const Login = (props) => {
               type="button"
               variant="success"
               onClick={validateUser}
-              disabled={user.email.length === 0 || user.password.length === 0}
+              disabled={user.username.length === 0 || user.password.length === 0}
             >
               <FontAwesomeIcon icon={faSignInAlt} /> Login
             </Button>{" "}
@@ -123,7 +130,7 @@ const Login = (props) => {
               type="button"
               variant="info"
               onClick={resetLoginForm}
-              disabled={user.email.length === 0 && user.password.length === 0}
+              disabled={user.username.length === 0 && user.password.length === 0}
             >
               <FontAwesomeIcon icon={faUndo} /> Reset
             </Button>

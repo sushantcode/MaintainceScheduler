@@ -27,10 +27,14 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .cors().and()
                 .csrf().disable()
                 .authorizeHttpRequests()
+                .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                .antMatchers("/api/" + ApplicationStaticProperties.version + "/login").authenticated()
                 .antMatchers("/api/" + ApplicationStaticProperties.version + "/admin/**").hasAuthority("ADMIN")
                 .antMatchers("/api/" + ApplicationStaticProperties.version + "/user/**").hasAnyAuthority("USER", "ADMIN")
                 .antMatchers("/").permitAll()
-                .and().formLogin();
+                .and()
+                //.formLogin()
+                .httpBasic();
     }
 
     @Override
