@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import {
   Row,
@@ -20,11 +20,21 @@ import {
 import AuthenticationService from "./AuthenticationService";
 
 const Login = (props) => {
+  let navigate = useNavigate();
+
+  useEffect(() => {
+    if (AuthenticationService.isUserLoggedIn()) {
+      if (AuthenticationService.getLoggedInUserRole() === 'ADMIN') {
+        navigate('/admin');
+      }
+      else {
+        navigate('/user');
+      }
+    }
+  })
+  
   const [error, setError] = useState();
   const [show, setShow] = useState(true);
-
-  let navigate = useNavigate();
-  let authenticationService = new AuthenticationService();
 
   const initialState = {
     username: "",
@@ -39,12 +49,12 @@ const Login = (props) => {
   };
 
   const validateUser = () => {
-    authenticationService
+    AuthenticationService
     .executeBasicAuthenticationService(user.username, user.password)
     .then((response) => {
-      console.log(response.data);
-      authenticationService.registerSuccessfulLogin(user.username, user.password);
-      navigate('/user');
+      AuthenticationService.registerSuccessfullLogin(response.data, user.password);
+      navigate('/dashboard');
+
     })
     .catch((error) => {
       console.log(error.message);
@@ -72,8 +82,8 @@ const Login = (props) => {
           </Alert>
         )}
         <Card className={"border border-dark bg-dark text-white"}>
-          <Card.Header className="text-center">
-            <FontAwesomeIcon icon={faSignInAlt} /> Login
+          <Card.Header className="text-center fs-4">
+            Login
           </Card.Header>
           <Card.Body>
             <Form className="mb-4">
@@ -117,6 +127,7 @@ const Login = (props) => {
           </Card.Body>
           <Card.Footer className="mb-3 mt-3" style={{ textAlign: "right" }}>
             <Button
+              className="me-3"
               size="sm"
               type="button"
               variant="success"
@@ -124,7 +135,7 @@ const Login = (props) => {
               disabled={user.username.length === 0 || user.password.length === 0}
             >
               <FontAwesomeIcon icon={faSignInAlt} /> Login
-            </Button>{" "}
+            </Button>
             <Button
               size="sm"
               type="button"

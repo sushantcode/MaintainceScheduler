@@ -6,6 +6,11 @@ import Login from './components/utils/Login';
 import UserHome from './components/pages/UserHome';
 import './App.css';
 import { Col, Container, Row } from 'react-bootstrap';
+import AdminHome from './components/pages/AdminPortal';
+import Logout from './components/utils/Logout';
+import Dashboard from './components/pages/Dashboard';
+import Footer from './components/utils/Footer';
+import Profile from './components/pages/Profile';
 
 function App() {
   return (
@@ -18,10 +23,15 @@ function App() {
             <Route path='/' element={<Home />} />
             <Route path='/login' element={<Login />} />
             <Route path='/user' element={<UserHome />} />
+            <Route path='/admin' element={<AdminHome />} />
+            <Route path='/logout' element={<Logout />} />
+            <Route path='/dashboard' element={<Dashboard />} />
+            <Route path='/profile' element={<Profile />} />
           </Routes>
           </Col>
         </Row>
       </Container>
+      <Footer />
     </Router>
   );
 }
