@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import {
   Row,
   Col,
@@ -21,17 +21,13 @@ import AuthenticationService from "./AuthenticationService";
 
 const Login = (props) => {
   let navigate = useNavigate();
+  let location = useLocation();
 
   useEffect(() => {
     if (AuthenticationService.isUserLoggedIn()) {
-      if (AuthenticationService.getLoggedInUserRole() === 'ADMIN') {
-        navigate('/admin');
-      }
-      else {
-        navigate('/user');
-      }
+      navigate('/dashboard');
     }
-  })
+  }, [navigate])
   
   const [error, setError] = useState();
   const [show, setShow] = useState(true);
@@ -71,9 +67,9 @@ const Login = (props) => {
   return (
     <Row className="justify-content-md-center">
       <Col md={5}>
-        {show && props.message && (
+        {location && location.state && location.state.message && (
           <Alert variant="success" onClose={() => setShow(false)} dismissible>
-            {props.message}
+            {location.state.message}
           </Alert>
         )}
         {show && error && (

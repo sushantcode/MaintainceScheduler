@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Navbar, Nav, Button } from 'react-bootstrap';
+import { Navbar, Nav, Button, Container } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faSignInAlt
 } from '@fortawesome/free-solid-svg-icons';
 import AuthenticationService from './AuthenticationService';
+import '../../css/NavMenu.css';
 
 const NavMenu = () => {
   // eslint-disable-next-line
@@ -30,12 +31,12 @@ const NavMenu = () => {
       </Link>
       {
         (role === "ADMIN") &&
-        <Link className='nav-link me-4' araia-aria-current="page" to={"admin"}>
+        <Link className='nav-link me-4' araia-aria-current="page" to="/admin">
           Admin Portal
         </Link>
       }
-      <Link className='nav-link me-4' araia-aria-current="page" to={"profile"}>
-        <Button variant='primary' onClick="this.blur()">
+      <Link className='nav-link' araia-aria-current="page" to="/profile">
+        <Button variant='primary'>
           Signed In: {username}
         </Button>
       </Link>
@@ -49,20 +50,26 @@ const NavMenu = () => {
   );
   
   return (
-    <Navbar bg='dark' variant='dark'>
-      <Link className="navbar-brand ms-3" to={"/"}>
-        <img src="/logo.png" alt="logo" style={{maxHeight: 75}}/>
-      </Link>
-      <div className='me-auto'></div>
-      <Nav className='navbar-right me-4 fs-5'>
-        {
-          AuthenticationService.isUserLoggedIn() ? 
-          authorizedLinks
-          :
-          unAuthorizedLinks
-        }
-        
-      </Nav>
+    <Navbar bg='dark' variant='dark' expand="md">
+      <Container>
+        <Navbar.Brand>
+          <Link className="navbar-brand" to={"/"}>
+            <img src="/logo.png" alt="logo" style={{maxHeight: 75}}/>
+          </Link>
+        </Navbar.Brand>
+        <Navbar.Toggle aria-controls='basic-navbar-nav' />
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className='navbar-right ms-auto fs-5'>
+            {
+              AuthenticationService.isUserLoggedIn() ? 
+              authorizedLinks
+              :
+              unAuthorizedLinks
+            }
+            
+          </Nav>
+        </Navbar.Collapse>
+      </Container>
     </Navbar>
   );
 };

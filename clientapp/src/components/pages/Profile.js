@@ -1,16 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import AuthenticationService, { API_URL } from '../utils/AuthenticationService';
-import { Col, Container, Row } from 'react-bootstrap';
+import AuthenticationService from '../utils/AuthenticationService';
+import { Button, Col, Container, Row } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faSignOut,
   faUserCircle,
-  faIdCard
+  faIdCard,
+  faEnvelope,
+  faUserPlus
 } from '@fortawesome/free-solid-svg-icons';
 import '../../css/Profile.css';
-import axios from 'axios';
 
 const Profile = () => {
   let navigate = useNavigate();
@@ -21,21 +22,25 @@ const Profile = () => {
     }
   });
 
-  // useEffect(() => {
-    
-  // });
+  const user = {
+    username: AuthenticationService.getLoggedInUsername(),
+    email: AuthenticationService.getLoggedInUserEmail(),
+    fname: AuthenticationService.getLoggedInUserFirstName(),
+    lname: AuthenticationService.getLoggedInUserLastName(),
+    role: AuthenticationService.getLoggedInUserRole()
+  }
 
   const logout = () => {
-    if (AuthenticationService.isUserLoggedIn()) {
-      AuthenticationService.logout();  
-    }
-    else {
-      navigate('/login');
-    }
+      AuthenticationService.logout();
+      navigate('/login', {
+        state: {
+          message: "You are logged out successfully. See you again!!!"
+        }
+      });
   }
 
   return (
-    <Container className='justify-content-center mt-3'>
+    <Container className='mt-3'>
       <Row>
         <Col>
           <div className='text-center pro_pic'>
@@ -43,24 +48,55 @@ const Profile = () => {
           </div>
         </Col>
       </Row>
-      <Row xs="auto" className='justify-content-center'>
-        <Col className="nav-link text-dark fs-5 fw-bold text-center">
+      <Row>
+        <Col className="text-center nav-link text-dark fs-5 fw-bold">
+          <span>
+            {user.fname + " " + user.lname}
+          </span>
+        </Col>
+      </Row>
+      <Row>
+        <Col className="text-end nav-link text-dark fs-5 fw-bold">
             <FontAwesomeIcon icon={faIdCard} /> Username : 
         </Col>
-        <Col className="nav-link text-dark fs-5 fw-bold text-center">
-          SUshant
+        <Col className="nav-link text-dark fs-6">
+          <span>
+            {user.username}
+          </span>
         </Col>
       </Row>
-      <Row className='justify-content-center'>
-        <Link className="nav-link text-dark fs-5 fw-bold text-center" aria-current="page" to={"logout"}>
-          Change Password
+      <Row>
+        <Col className="text-end nav-link text-dark fs-5 fw-bold">
+            <FontAwesomeIcon icon={faEnvelope} /> Email : 
+        </Col>
+        <Col className="nav-link text-dark fs-6">
+          <span>
+            {user.email}
+          </span>
+        </Col>
+      </Row>
+      <Row>
+        <Col className="text-end nav-link text-dark fs-5 fw-bold">
+            <FontAwesomeIcon icon={faUserPlus} /> Role : 
+        </Col>
+        <Col className="nav-link text-dark fs-5">
+          <span>
+            {user.role}
+          </span>
+        </Col>
+      </Row>
+      <Row className='mt-3'>
+        <Link className="nav-link text-dark text-center" aria-current="page" to="/changePassword">
+          <Button variant='secondary fs-5 fw-bold'>
+            Change Password
+          </Button>
         </Link>
       </Row>
-      <Row className='justify-content-md-center mt-3'>
-        <Col>
-          <Link className="nav-link text-danger fs-5 fw-bold text-center" aria-current="page" to="/logout" onClick={logout}>
+      <Row className='mt-3'>
+        <Col className="text-center">
+          <Button className="fs-5 fw-bold" variant='danger' onClick={logout}>
             <FontAwesomeIcon icon={faSignOut} /> Logout
-          </Link>
+          </Button>
         </Col>
       </Row>
     </Container>

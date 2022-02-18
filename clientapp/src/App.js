@@ -11,6 +11,7 @@ import Logout from './components/utils/Logout';
 import Dashboard from './components/pages/Dashboard';
 import Footer from './components/utils/Footer';
 import Profile from './components/pages/Profile';
+import ChangePassword from './components/utils/ChangePassword';
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
             <Route path='/logout' element={<Logout />} />
             <Route path='/dashboard' element={<Dashboard />} />
             <Route path='/profile' element={<Profile />} />
+            <Route path='/changePassword' element={<ChangePassword />} />
           </Routes>
           </Col>
         </Row>
