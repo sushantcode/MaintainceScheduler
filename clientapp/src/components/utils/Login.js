@@ -19,7 +19,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import AuthenticationService from "./AuthenticationService";
 
-const Login = (props) => {
+const Login = () => {
   let navigate = useNavigate();
   let location = useLocation();
 
@@ -31,6 +31,7 @@ const Login = (props) => {
   
   const [error, setError] = useState();
   const [show, setShow] = useState(true);
+  const [showPropMsg, setShowPropMsg] = useState(false);
 
   const initialState = {
     username: "",
@@ -38,6 +39,11 @@ const Login = (props) => {
   };
 
   const [user, setUser] = useState(initialState);
+
+  useEffect(() => {
+    location && location.state && location.state.message ? 
+    setShowPropMsg(true) : setShowPropMsg(false);
+  }, [location])
 
   const credentialChange = (event) => {
     const { name, value } = event.target;
@@ -67,8 +73,8 @@ const Login = (props) => {
   return (
     <Row className="justify-content-md-center">
       <Col md={5}>
-        {location && location.state && location.state.message && (
-          <Alert variant="success" onClose={() => setShow(false)} dismissible>
+        {showPropMsg && (
+          <Alert variant="success" onClose={() => setShowPropMsg(false)}  dismissible>
             {location.state.message}
           </Alert>
         )}

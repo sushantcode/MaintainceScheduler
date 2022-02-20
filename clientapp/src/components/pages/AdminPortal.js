@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import AuthenticationService, { API_URL } from '../utils/AuthenticationService';
-import axios from 'axios';
-import { Button, Card, CardGroup, Col, Container, Row } from 'react-bootstrap';
+import React, { useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import AuthenticationService from '../utils/AuthenticationService';
+import { Button, Col, Container, Row } from 'react-bootstrap';
 import {
   faUserFriends,
   faUserPlus,
@@ -12,7 +11,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const AdminPortal = () => {
   let navigate = useNavigate();
-  const [userList, setUserList] = useState(null);
 
   let isloggedIn = AuthenticationService.isUserLoggedIn();
 
@@ -24,30 +22,23 @@ const AdminPortal = () => {
       navigate('/dashboard')
     }
   }, [isloggedIn, navigate]);
-
-  useEffect(() => {
-    axios.get(API_URL + '/admin/listUsers')
-    .then((response) => {
-      console.log(response.data);
-      setUserList(response.data);
-    })
-  }, []);
-
   
   return (
-    <Container className='mt-5'>
+    <Container>
       <Row className='mb-5'>
-        <Col className="text-center">
-          <Button variant='outline-secondary'>
-            <div className='text-center pro_pic'>
-              <FontAwesomeIcon icon={faUserFriends} />
-            </div>
-            <span className='fw-bold'>
-              Manage Existing Users
-            </span>
-          </Button>
+        <Col className="text-center mt-5">
+          <Link to={"manageUsers"}>
+            <Button variant='outline-secondary'>
+              <div className='text-center pro_pic'>
+                <FontAwesomeIcon icon={faUserFriends} />
+              </div>
+              <span className='fw-bold'>
+                Manage Existing Users
+              </span>
+            </Button>
+          </Link>
         </Col>
-        <Col className="text-center">
+        <Col className="text-center mt-5">
           <Button variant='outline-secondary'>
             <div className='text-center pro_pic'>
               <FontAwesomeIcon icon={faUserPlus} />

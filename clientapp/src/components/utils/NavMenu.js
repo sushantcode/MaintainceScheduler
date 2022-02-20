@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Navbar, Nav, Button, Container } from 'react-bootstrap';
+import { Navbar, Nav, Container } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faSignInAlt
@@ -35,11 +35,10 @@ const NavMenu = () => {
           Admin Portal
         </Link>
       }
-      <Link className='nav-link' araia-aria-current="page" to="/profile">
-        <Button variant='primary'>
-          Signed In: {username}
-        </Button>
-      </Link>
+      <Navbar.Text className='nav-link'>
+        Signed In As: {' '} 
+        <Link className='text-light' araia-aria-current="page" to="/profile"> {username} </Link>
+      </Navbar.Text>
     </>
   );
 
@@ -51,7 +50,7 @@ const NavMenu = () => {
   
   return (
     <Navbar bg='dark' variant='dark' expand="md">
-      <Container>
+      <Container fluid>
         <Navbar.Brand className='me-auto'>
           <Link className="navbar-brand" to={"/"}>
             <img src="/logo.png" alt="logo" style={{maxHeight: 75}}/>
@@ -59,7 +58,7 @@ const NavMenu = () => {
         </Navbar.Brand>
         <Navbar.Toggle aria-controls='basic-navbar-nav' />
         <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className='navbar-right ms-auto fs-5'>
+          <Nav className='ms-auto fs-5'>
             {
               AuthenticationService.isUserLoggedIn() ? 
               authorizedLinks
