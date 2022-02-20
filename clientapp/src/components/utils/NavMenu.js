@@ -52,7 +52,7 @@ const NavMenu = () => {
   return (
     <Navbar bg='dark' variant='dark' expand="md">
       <Container>
-        <Navbar.Brand>
+        <Navbar.Brand className='me-auto'>
           <Link className="navbar-brand" to={"/"}>
             <img src="/logo.png" alt="logo" style={{maxHeight: 75}}/>
           </Link>
