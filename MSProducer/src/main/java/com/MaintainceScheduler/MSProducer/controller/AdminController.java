@@ -1,5 +1,6 @@
 package com.MaintainceScheduler.MSProducer.controller;
 
+import com.MaintainceScheduler.MSProducer.ApplicationStaticProperties;
 import com.MaintainceScheduler.MSProducer.userAuthentication.User;
 import com.MaintainceScheduler.MSProducer.userAuthentication.UserRegistrationRequest;
 import com.MaintainceScheduler.MSProducer.userAuthentication.UserService;
@@ -13,9 +14,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/admin")
+@CrossOrigin
+@RequestMapping("/api/" + ApplicationStaticProperties.version + "/admin")
 public class AdminController {
     private static final Logger logger = LogManager.getLogger(AdminController.class);
+
     @Autowired
     private UserService userService;
 

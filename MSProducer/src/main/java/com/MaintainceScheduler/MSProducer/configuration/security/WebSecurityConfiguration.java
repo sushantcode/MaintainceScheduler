@@ -1,5 +1,6 @@
 package com.MaintainceScheduler.MSProducer.configuration.security;
 
+import com.MaintainceScheduler.MSProducer.ApplicationStaticProperties;
 import com.MaintainceScheduler.MSProducer.userAuthentication.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -23,12 +24,17 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+                .cors().and()
                 .csrf().disable()
                 .authorizeHttpRequests()
-                .antMatchers("/admin/**").hasAuthority("ADMIN")
-                .antMatchers("/user/**").hasAnyAuthority("USER", "ADMIN")
+                .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                .antMatchers("/api/" + ApplicationStaticProperties.version + "/login").authenticated()
+                .antMatchers("/api/" + ApplicationStaticProperties.version + "/admin/**").hasAuthority("ADMIN")
+                .antMatchers("/api/" + ApplicationStaticProperties.version + "/user/**").hasAnyAuthority("USER", "ADMIN")
                 .antMatchers("/").permitAll()
-                .and().formLogin();
+                .and()
+                //.formLogin()
+                .httpBasic();
     }
 
     @Override

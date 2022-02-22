@@ -1,5 +1,6 @@
 package com.MaintainceScheduler.MSProducer.controller;
 
+import com.MaintainceScheduler.MSProducer.ApplicationStaticProperties;
 import com.MaintainceScheduler.MSProducer.model.Machine;
 import com.MaintainceScheduler.MSProducer.model.Maintenance;
 import com.MaintainceScheduler.MSProducer.model.Part;
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/api/" + ApplicationStaticProperties.version + "/user")
 public class UserController {
     private static final Logger logger = LogManager.getLogger(UserController.class);
 
