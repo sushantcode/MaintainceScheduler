@@ -12,6 +12,7 @@ import Footer from './components/utils/Footer';
 import Profile from './components/pages/Profile';
 import ChangePassword from './components/utils/ChangePassword';
 import ManageUsers from './components/pages/ManageUsers';
+import AddNewUser from './components/pages/AddNewUser';
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
             <Route path='/profile' element={<Profile />} />
             <Route path='/changePassword' element={<ChangePassword />} />
             <Route path='/admin/manageUsers' element={<ManageUsers />} />
+            <Route path='/admin/addNewUser' element={<AddNewUser />} />
           </Routes>
           </Col>
         </Row>

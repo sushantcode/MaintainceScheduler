@@ -39,14 +39,16 @@ const AdminPortal = () => {
           </Link>
         </Col>
         <Col className="text-center mt-5">
-          <Button variant='outline-secondary'>
-            <div className='text-center pro_pic'>
-              <FontAwesomeIcon icon={faUserPlus} />
-            </div>
-            <span className='fw-bold'>
-              Add new User
-            </span>
-          </Button>
+          <Link to={"addNewUser"}>
+            <Button variant='outline-secondary'>
+              <div className='text-center pro_pic'>
+                <FontAwesomeIcon icon={faUserPlus} />
+              </div>
+              <span className='fw-bold'>
+                Add new User
+              </span>
+            </Button>
+          </Link>
         </Col>
       </Row>
       <Row>

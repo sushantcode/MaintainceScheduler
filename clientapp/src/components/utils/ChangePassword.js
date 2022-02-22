@@ -103,7 +103,7 @@ const ChangePassword = () => {
                   <FormControl
                     required
                     autoComplete="off"
-                    type="text"
+                    type="password"
                     name="oldPassword"
                     value={newUser.oldPassword}
                     onChange={credentialChange}
