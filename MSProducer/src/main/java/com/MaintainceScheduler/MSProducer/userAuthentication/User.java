@@ -24,15 +24,15 @@ public class User implements UserDetails {
             name = "user_sequence",
             sequenceName = "user_sequence",
             allocationSize = 1,
-            initialValue = 3
+            initialValue = 1
     )
     @GeneratedValue(
             strategy = GenerationType.SEQUENCE,
             generator = "user_sequence"
     )
     private Long id;
-    private String fName;
-    private String lName;
+    private String fname;
+    private String lname;
     @Column(unique = true)
     private String username;
     private String email;
@@ -41,14 +41,14 @@ public class User implements UserDetails {
     private Boolean isLocked;
     private Boolean isEnabled;
 
-    public User(String fName,
-                String lName,
+    public User(String fname,
+                String lname,
                 String username,
                 String email,
                 String password,
                 String role) {
-        this.fName = fName;
-        this.lName = lName;
+        this.fname = fname;
+        this.lname = lname;
         this.username = username;
         this.email = email;
         this.password = password;

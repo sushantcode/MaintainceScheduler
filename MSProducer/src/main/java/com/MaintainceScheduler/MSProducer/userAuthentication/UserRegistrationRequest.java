@@ -9,8 +9,8 @@ import lombok.*;
 @ToString
 @ApiModel
 public class UserRegistrationRequest {
-    private final String fName;
-    private final String lName;
+    private final String fname;
+    private final String lname;
     private final String username;
     private final String email;
     private final String password;

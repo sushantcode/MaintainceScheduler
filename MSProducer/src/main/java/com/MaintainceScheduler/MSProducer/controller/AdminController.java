@@ -1,6 +1,7 @@
 package com.MaintainceScheduler.MSProducer.controller;
 
 import com.MaintainceScheduler.MSProducer.ApplicationStaticProperties;
+import com.MaintainceScheduler.MSProducer.userAuthentication.CustomUser;
 import com.MaintainceScheduler.MSProducer.userAuthentication.User;
 import com.MaintainceScheduler.MSProducer.userAuthentication.UserRegistrationRequest;
 import com.MaintainceScheduler.MSProducer.userAuthentication.UserService;
@@ -44,15 +45,15 @@ public class AdminController {
         if (userRegistrationRequest.getPassword() == null) {
             return new ResponseEntity<>("Password cannot be empty", HttpStatus.BAD_REQUEST);
         }
-        if (userRegistrationRequest.getFName() == null) {
+        if (userRegistrationRequest.getFname() == null) {
             return new ResponseEntity<>("First name cannot be empty", HttpStatus.BAD_REQUEST);
         }
-        if (userRegistrationRequest.getLName() == null) {
+        if (userRegistrationRequest.getLname() == null) {
             return new ResponseEntity<>("Last name cannot be empty", HttpStatus.BAD_REQUEST);
         }
         User user = new User(
-                userRegistrationRequest.getFName(),
-                userRegistrationRequest.getLName(),
+                userRegistrationRequest.getFname(),
+                userRegistrationRequest.getLname(),
                 userRegistrationRequest.getUsername(),
                 userRegistrationRequest.getEmail(),
                 userRegistrationRequest.getPassword(),
@@ -77,8 +78,8 @@ public class AdminController {
         }
     }
 
-    @PutMapping("/updateUpdateStatus")
-    public ResponseEntity<?> updateUpdateStatus(@RequestParam Long id, @RequestBody Boolean isEnabled) {
+    @PutMapping("/updateStatus")
+    public ResponseEntity<?> updateStatus(@RequestParam Long id, @RequestParam Boolean isEnabled) {
         logger.info("Admin requested update user status for id: " + id.toString());
         if (isEnabled == null) {
             return new ResponseEntity<>("Current status must be passed", HttpStatus.BAD_REQUEST);
