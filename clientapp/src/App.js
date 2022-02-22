@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import NavMenu from './components/utils/NavMenu';
 import Home from './components/pages/Home';
 import Login from './components/utils/Login';
-import UserHome from './components/pages/UserHome';
 import './App.css';
 import { Col, Container, Row } from 'react-bootstrap';
 import AdminHome from './components/pages/AdminPortal';
@@ -24,7 +23,6 @@ function App() {
           <Routes>
             <Route path='/' element={<Home />} />
             <Route path='/login' element={<Login />} />
-            <Route path='/user' element={<UserHome />} />
             <Route path='/admin' element={<AdminHome />} />
             <Route path='/dashboard' element={<Dashboard />} />
             <Route path='/profile' element={<Profile />} />
