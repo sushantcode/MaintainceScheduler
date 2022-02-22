@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -50,6 +51,44 @@ public class UserService implements UserDetailsService {
             u.setPassword("********");
         }
         return userList;
+    }
+
+    public CustomUser findUserByUserName(String username) {
+        Optional<User> user = userRepository.findByUsername(username);
+        if (user != null) {
+            CustomUser customUser = new CustomUser(
+                    user.get().getId(),
+                    user.get().getFname(),
+                    user.get().getLname(),
+                    user.get().getUsername(),
+                    user.get().getEmail(),
+                    user.get().getRole(),
+                    user.get().getIsLocked(),
+                    user.get().getIsEnabled()
+            );
+            return customUser;
+        } else {
+            return null;
+        }
+    }
+
+    public void changePassword(PasswordChange passwordChange) {
+        Optional<User> user = userRepository.findByUsername(passwordChange.getUsername());
+        if (user == null) {
+            throw new RuntimeException("Username does not exist.");
+        } else {
+            boolean isMatch = bCryptPasswordEncoder
+                    .matches(passwordChange.getOldPassword(), user.get().getPassword());
+            if (isMatch) {
+                String encodedPassword = bCryptPasswordEncoder
+                        .encode(passwordChange.getNewPassword());
+                user.get().setPassword(encodedPassword);
+                userRepository.save(user.get());
+            }
+            else {
+                throw new RuntimeException("Invalid old password");
+            }
+        }
     }
 
     public void enableDisableUser(Long id, Boolean isEnabled) {

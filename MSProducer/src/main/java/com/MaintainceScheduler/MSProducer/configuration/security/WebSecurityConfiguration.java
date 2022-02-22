@@ -24,16 +24,20 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .cors().and()
-                .csrf().disable()
-                .authorizeHttpRequests()
-                .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                .antMatchers("/api/" + ApplicationStaticProperties.version + "/login").authenticated()
-                .antMatchers("/api/" + ApplicationStaticProperties.version + "/admin/**").hasAuthority("ADMIN")
-                .antMatchers("/api/" + ApplicationStaticProperties.version + "/user/**").hasAnyAuthority("USER", "ADMIN")
-                .antMatchers("/").permitAll()
+                .cors()
                 .and()
-                //.formLogin()
+                .csrf().disable()
+                .authorizeRequests()
+                .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                .antMatchers("/api/" + ApplicationStaticProperties.version + "/admin/**").hasAuthority("ADMIN")
+                .antMatchers("/api/" + ApplicationStaticProperties.version + "/login").authenticated()
+                .antMatchers("/api/" + ApplicationStaticProperties.version + "/getProfile").authenticated()
+                .antMatchers("/api/" + ApplicationStaticProperties.version + "/changePassword").authenticated()
+                .antMatchers("/api/" + ApplicationStaticProperties.version + "/user/**").authenticated()
+                .antMatchers("/").permitAll()
+                .anyRequest().authenticated()
+                .and()
+                //.formLogin();
                 .httpBasic();
     }
 
