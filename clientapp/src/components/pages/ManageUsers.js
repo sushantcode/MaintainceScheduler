@@ -2,18 +2,31 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AuthenticationService, { API_URL } from '../utils/AuthenticationService';
 import axios from 'axios';
-import { Button, Container, Modal, Table, Toast, ToastContainer } from 'react-bootstrap';
+import { Alert, Button, Card, Col, Container, Form, FormControl, InputGroup, Modal, Row, Table } from 'react-bootstrap';
+import MessageToaster from '../utils/MessageToaster';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faLock, faUndo, faUpload, faRefresh } from '@fortawesome/free-solid-svg-icons';
 
 const ManageUsers = () => {
   let navigate = useNavigate();
+
+  // Users list state variables
   const [userList, setUserList] = useState(null);
   const [error, setError] = useState();
+
+  // status update state variables
   const [updateError, setUpdateError] = useState();
-  const [modalShow, setModalShow] = useState(false);
-  const [toastShow, setToastShow] = useState(false);
+  const [statusModalShow, setStatusModalShow] = useState(false);
   const [selectUserStatus, setSelectUserStatus] = useState();
-  const [selectUserId, setSelectUserId] = useState();
   const [confirmAction, setConfirmAction] = useState(false);
+  const [selectUserId, setSelectUserId] = useState();
+  const [updateToastShow, setUpdateToastShow] = useState(false);
+
+  // password reset action state variables
+  const [passResetError, setPassResetError] = useState();
+  const [passResetModalShow, setPassResetModalShow] = useState(false);
+  const [passResetToastShow, setPassResetToastShow] = useState(false);
+  const [newPassword, setNewPassword] = useState("");
 
   let isloggedIn = AuthenticationService.isUserLoggedIn();
 
@@ -61,7 +74,7 @@ const ManageUsers = () => {
       setConfirmAction(false);
       setSelectUserId();
       setSelectUserStatus();
-      setModalShow(false);
+      setStatusModalShow(false);
     }
   // eslint-disable-next-line
   }, [confirmAction])
@@ -79,13 +92,41 @@ const ManageUsers = () => {
     })
     .catch((err) => {
       setUpdateError(err.message);
-      setToastShow(true);
+      setUpdateToastShow(true);
     })
   }
 
-  const modal = (
+  const onPasswordResetSubmit = () => {
+    if (selectUserId === undefined) {
+      return ( () => {
+          setPassResetError("Select id is undefined!");
+          setPassResetToastShow(true);
+        }
+      )
+    }
+    const url = API_URL + 
+                '/admin/resetPassword?id=' + 
+                selectUserId.toString();
+    axios.put(url, newPassword, 
+      {
+        headers: {"Content-Type": "text/plain"}
+      })
+    .then(() => {
+      setPassResetError();
+      setNewPassword('');
+      setPassResetModalShow(false);
+      setPassResetToastShow(true);
+    })
+    .catch((err) => {
+      setPassResetError(err.message);
+      setNewPassword('');
+      setPassResetToastShow(true);
+    })
+  }
+
+  const statusModal = (
     <Modal
-      show={modalShow}
+      show={statusModalShow}
       size="lg"
       aria-labelledby="contained-modal-title-vcenter"
       centered
@@ -102,38 +143,123 @@ const ManageUsers = () => {
           }}>Yes</Button>
         <Button 
           onClick={() => {
+            setSelectUserId();
             setConfirmAction(false);
-            setModalShow(false);
+            setStatusModalShow(false);
           }}>No</Button>
       </Modal.Footer>
     </Modal>
   );
 
-  let toast = (
-    <ToastContainer position='middle-center'>
-      <Toast show={toastShow} onClose={() => setToastShow(false)} delay={2500} autohide>
-        <Toast.Body className='text-danger fs-4'>
-          Error: {" " + updateError}
-        </Toast.Body>
-      </Toast>
-    </ToastContainer>
-  )
+  const passResetModal = (
+    <Modal
+      show={passResetModalShow}
+      size="lg"
+      aria-labelledby="contained-modal-title-vcenter"
+      centered
+      backdrop="static"
+      keyboard={false}
+      onHide={() => {
+        setPassResetModalShow(false);
+        setNewPassword("");
+      }}
+    >
+      <Modal.Header closeButton>
+        Enter new password for the user?
+      </Modal.Header>
+      <Modal.Body>
+        <Row>
+          <Col>
+            {
+              passResetToastShow && passResetError && 
+              <Alert variant="danger" onClose={() => setPassResetToastShow(false)} dismissible>
+                {passResetError}
+              </Alert>
+            }
+            <Card>
+              <Card.Body>
+                <Form className="mb-2">
+                  <Form.Group as={Col}>
+                    <InputGroup>
+                      <InputGroup.Text>
+                        <FontAwesomeIcon icon={faLock} />
+                      </InputGroup.Text>
+                      <FormControl
+                        required
+                        autoComplete="off"
+                        type="password"
+                        name="newPassword"
+                        value={newPassword}
+                        onChange={(e) => setNewPassword(e.target.value)}
+                        placeholder="Enter new Password"
+                      />
+                    </InputGroup>
+                  </Form.Group>
+                </Form>
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
+      </Modal.Body>
+      <Modal.Footer>
+        <Button
+          className="me-3"
+          size="sm"
+          type="button"
+          variant="success"
+          onClick={() => onPasswordResetSubmit()}
+          disabled={newPassword.length === 0}
+        >
+          <FontAwesomeIcon icon={faUpload} /> Submit
+        </Button>
+        <Button
+          size="sm"
+          type="button"
+          variant="info"
+          onClick={() => setNewPassword("")}
+          disabled={newPassword.length === 0}
+        >
+          <FontAwesomeIcon icon={faUndo} /> Reset
+        </Button>
+      </Modal.Footer>
+    </Modal>
+  );
 
-  let users = ((userList !== undefined) && (userList !== null) && (userList !== [])) ? userList.map((data) => { 
+  let users = (
+    (userList !== undefined) && (userList !== null) && (userList !== [])) ? 
+    userList
+      .filter(user => user.username !== AuthenticationService.getLoggedInUsername())
+      .map((data) => { 
       return (
         <tr key={data.id}>
           <td>{data.id}</td>
           <td>{data.fname + ' ' + data.lname}</td>
+          <td>{data.username}</td>
           <td>{data.email}</td>
           <td>{data.role}</td>
           <td>
-            <Button variant='danger' onClick={() => {
-                                          setSelectUserId(data.id);
-                                          setSelectUserStatus(data.isEnabled);
-                                          setModalShow(true);
-                                        }
-                                      }> 
+            <Button 
+              variant='danger'
+              onClick={() => {
+                              setSelectUserId(data.id);
+                              setSelectUserStatus(data.isEnabled);
+                              setStatusModalShow(true);
+                            }
+                          }
+              > 
               {data.isEnabled ? "Disable User" : "Enable User"}
+            </Button>
+          </td>
+          <td>
+            <Button 
+              variant='danger'
+              onClick={() => {
+                setSelectUserId(data.id);
+                setPassResetModalShow(true);
+              }
+            }
+            > 
+              Reset Password <FontAwesomeIcon icon={faRefresh} />
             </Button>
           </td>
         </tr>
@@ -144,7 +270,8 @@ const ManageUsers = () => {
   
   return (
     <Container>
-      {modal}
+      {statusModal}
+      {passResetModal}
       {
         error ?
         <div className='text-center mt-5'>
@@ -155,11 +282,13 @@ const ManageUsers = () => {
           <Table striped bordered hover>
             <thead>
               <tr>
-                <th>id</th>
+                <th>Id</th>
                 <th>Full Name</th>
+                <th>Username</th>
                 <th>Email</th>
                 <th>Role</th>
                 <th>Enable/Disable</th>
+                <th>Password Reset</th>
               </tr>
             </thead>
             {users && 
@@ -169,7 +298,27 @@ const ManageUsers = () => {
           </Table>
         )
       }
-      {toast}
+      {
+        updateError &&
+        <MessageToaster 
+          show={updateToastShow} 
+          setShow={setUpdateToastShow} 
+          message={"Error: " + updateError} 
+          variant="danger"
+        />
+      }
+      {
+        passResetError ?
+        ''
+        :
+        <MessageToaster 
+          show={passResetToastShow} 
+          setShow={setPassResetToastShow} 
+          message={"User's password reset successful!!!"} 
+          variant="success"
+        />
+      }
+
     </Container>
   )
 }

@@ -91,6 +91,18 @@ public class UserService implements UserDetailsService {
         }
     }
 
+    public void resetPassword(Long id, String password) {
+        Optional<User> user = userRepository.findById(id);
+        if (user == null) {
+            throw new RuntimeException("Username does not exist.");
+        } else {
+            String encodedPassword = bCryptPasswordEncoder
+                    .encode(password);
+            user.get().setPassword(encodedPassword);
+            userRepository.save(user.get());
+        }
+    }
+
     public void enableDisableUser(Long id, Boolean isEnabled) {
         if (isEnabled) {
             userRepository.disableUser(id);
