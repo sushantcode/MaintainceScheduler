@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import NavMenu from './components/utils/NavMenu';
 import Home from './components/pages/Home';
 import Login from './components/utils/Login';
-import './App.css';
 import { Col, Container, Row } from 'react-bootstrap';
 import AdminHome from './components/pages/AdminPortal';
 import Dashboard from './components/pages/Dashboard';

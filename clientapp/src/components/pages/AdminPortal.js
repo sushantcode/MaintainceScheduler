@@ -4,8 +4,7 @@ import AuthenticationService from '../utils/AuthenticationService';
 import { Button, Col, Container, Row } from 'react-bootstrap';
 import {
   faUserFriends,
-  faUserPlus,
-  faRefresh
+  faUserPlus
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -44,23 +43,11 @@ const AdminPortal = () => {
               <div className='text-center pro_pic'>
                 <FontAwesomeIcon icon={faUserPlus} />
               </div>
-              <span className='fw-bold'>
+              <span className='fw-bold px-4'>
                 Add new User
               </span>
             </Button>
           </Link>
-        </Col>
-      </Row>
-      <Row>
-        <Col className="text-center">
-          <Button variant='outline-secondary'>
-            <div className='text-center pro_pic'>
-              <FontAwesomeIcon icon={faRefresh} />
-            </div>
-            <span className='fw-bold'>
-              Reset User Password
-            </span>
-          </Button>
         </Col>
       </Row>
     </Container>

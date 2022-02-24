@@ -14,6 +14,7 @@ const NavMenu = () => {
 
   const [username, setUsername] = useState("");
   const [role, setRole] = useState("");
+  const [expanded, setExpanded] = useState(false);
 
   let isloggedIn = AuthenticationService.isUserLoggedIn();
 
@@ -26,18 +27,18 @@ const NavMenu = () => {
 
   const authorizedLinks = (
     <>
-      <Link className='nav-link me-4' araia-aria-current="page" to={"dashboard"}>
+      <Link className='nav-link' to={"dashboard"}>
         Dashboard
       </Link>
       {
         (role === "ADMIN") &&
-        <Link className='nav-link me-4' araia-aria-current="page" to="/admin">
+        <Link className='nav-link me-4' to="/admin">
           Admin Portal
         </Link>
       }
       <Navbar.Text className='nav-link'>
         Signed In As: {' '} 
-        <Link className='text-light' araia-aria-current="page" to="/profile"> {username} </Link>
+        <Link to="/profile"> {username} </Link>
       </Navbar.Text>
     </>
   );
@@ -49,16 +50,24 @@ const NavMenu = () => {
   );
   
   return (
-    <Navbar bg='dark' variant='dark' expand="md">
+    <Navbar 
+      bg='dark' 
+      variant='dark' 
+      expand="md" 
+      collapseOnSelect={true} 
+      expanded={expanded}
+      onSelect={() => setExpanded(expanded)}
+      onToggle={() => setExpanded(!expanded)} 
+    >
       <Container fluid>
         <Navbar.Brand className='me-auto'>
           <Link className="navbar-brand" to={"/"}>
             <img src="/logo.png" alt="logo" style={{maxHeight: 75}}/>
           </Link>
         </Navbar.Brand>
-        <Navbar.Toggle aria-controls='basic-navbar-nav' />
+        <Navbar.Toggle aria-controls='basic-navbar-nav'/>
         <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className='ms-auto fs-5'>
+          <Nav className='ms-auto fs-5 float-end text-end'>
             {
               AuthenticationService.isUserLoggedIn() ? 
               authorizedLinks

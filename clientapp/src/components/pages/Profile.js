@@ -56,7 +56,7 @@ const Profile = () => {
         </Col>
       </Row>
       <Row>
-        <Col className="text-end nav-link text-dark fs-5 fw-bold">
+        <Col className="text-end nav-link text-dark fs-6 fw-bold">
             <FontAwesomeIcon icon={faIdCard} /> Username : 
         </Col>
         <Col className="nav-link text-dark fs-6">
@@ -66,7 +66,7 @@ const Profile = () => {
         </Col>
       </Row>
       <Row>
-        <Col className="text-end nav-link text-dark fs-5 fw-bold">
+        <Col className="text-end nav-link text-dark fs-6 fw-bold">
             <FontAwesomeIcon icon={faEnvelope} /> Email : 
         </Col>
         <Col className="nav-link text-dark fs-6">
@@ -76,10 +76,10 @@ const Profile = () => {
         </Col>
       </Row>
       <Row>
-        <Col className="text-end nav-link text-dark fs-5 fw-bold">
+        <Col className="text-end nav-link text-dark fs-6 fw-bold">
             <FontAwesomeIcon icon={faUserPlus} /> Role : 
         </Col>
-        <Col className="nav-link text-dark fs-5">
+        <Col className="nav-link text-dark fs-6">
           <span>
             {user.role}
           </span>

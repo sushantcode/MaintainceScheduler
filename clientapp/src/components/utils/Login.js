@@ -131,7 +131,7 @@ const Login = () => {
             <Button
               className="me-3"
               size="sm"
-              type="button"
+              type="submit"
               variant="success"
               onClick={validateUser}
               disabled={user.username.length === 0 || user.password.length === 0}

@@ -91,4 +91,18 @@ public class AdminController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @PutMapping("/resetPassword")
+    public ResponseEntity<?> updateStatus(@RequestParam Long id, @RequestBody String password) {
+        logger.info("Admin requested to reset password for id: " + id.toString());
+        if (password == null) {
+            return new ResponseEntity<>("Must pass new password in body", HttpStatus.BAD_REQUEST);
+        }
+        try {
+            userService.resetPassword(id, password);
+            return new ResponseEntity<>("User password reset successful", HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }
