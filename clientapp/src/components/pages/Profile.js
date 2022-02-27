@@ -55,31 +55,31 @@ const Profile = () => {
           </span>
         </Col>
       </Row>
-      <Row>
-        <Col className="text-end nav-link text-dark fs-6 fw-bold">
+      <Row className='mb-3 mt-3'>
+        <Col className="text-end text-dark fs-6 fw-bold">
             <FontAwesomeIcon icon={faIdCard} /> Username : 
         </Col>
-        <Col className="nav-link text-dark fs-6">
+        <Col className="text-dark fs-6">
           <span>
             {user.username}
           </span>
         </Col>
       </Row>
-      <Row>
-        <Col className="text-end nav-link text-dark fs-6 fw-bold">
+      <Row className='mb-3'>
+        <Col className="text-end text-dark fs-6 fw-bold">
             <FontAwesomeIcon icon={faEnvelope} /> Email : 
         </Col>
-        <Col className="nav-link text-dark fs-6">
+        <Col className="text-dark fs-6">
           <span>
             {user.email}
           </span>
         </Col>
       </Row>
-      <Row>
-        <Col className="text-end nav-link text-dark fs-6 fw-bold">
+      <Row className='mb-4'>
+        <Col className="text-end text-dark fs-6 fw-bold">
             <FontAwesomeIcon icon={faUserPlus} /> Role : 
         </Col>
-        <Col className="nav-link text-dark fs-6">
+        <Col className="text-dark fs-6">
           <span>
             {user.role}
           </span>

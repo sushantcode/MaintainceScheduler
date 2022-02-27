@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import AuthenticationService from '../utils/AuthenticationService';
 import { Button, Col, Container, Row } from 'react-bootstrap';
 import { 
@@ -57,14 +57,16 @@ const Dashboard = () => {
               </Button>
             </Col>
             <Col className='text-center mt-5'>
-              <Button variant='outline-secondary' className='fw-bold py-3'>
-                <div className='fs-1'>
-                  <FontAwesomeIcon icon={faListCheck} />
-                </div>
-                <span className='fs-5'>
-                  Manage Machine Info
-                </span>
-              </Button>
+              <Link to={"manageMachine"}>
+                <Button variant='outline-secondary' className='fw-bold py-3' >
+                  <div className='fs-1'>
+                    <FontAwesomeIcon icon={faListCheck} />
+                  </div>
+                  <span className='fs-5'>
+                    Manage Machine Info
+                  </span>
+                </Button>
+              </Link>
             </Col>
           </Row>
         </Col>
