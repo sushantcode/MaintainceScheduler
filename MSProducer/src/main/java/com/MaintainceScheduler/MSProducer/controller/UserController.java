@@ -1,9 +1,7 @@
 package com.MaintainceScheduler.MSProducer.controller;
 
 import com.MaintainceScheduler.MSProducer.ApplicationStaticProperties;
-import com.MaintainceScheduler.MSProducer.model.Machine;
-import com.MaintainceScheduler.MSProducer.model.Maintenance;
-import com.MaintainceScheduler.MSProducer.model.Part;
+import com.MaintainceScheduler.MSProducer.model.*;
 import com.MaintainceScheduler.MSProducer.service.MachineService;
 import com.MaintainceScheduler.MSProducer.service.MaintenanceService;
 import com.MaintainceScheduler.MSProducer.service.PartService;
@@ -52,9 +50,14 @@ public class UserController {
     }
 
     @GetMapping("/listMachine")
-    public ResponseEntity<List<Machine>> getMachine() {
-        List<Machine> machineList = machineService.getMachine();
-        return new ResponseEntity<>(machineList, HttpStatus.OK);
+    public ResponseEntity<?> getMachine() {
+        try {
+            List<MachineResponse> machineList = machineService.getMachine();
+            return new ResponseEntity<>(machineList, HttpStatus.OK);
+        }
+        catch (RuntimeException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @PostMapping("addMachinePart")
@@ -182,7 +185,7 @@ public class UserController {
     @GetMapping("/getMaintenanceRecord")
     public ResponseEntity<?> getMaintenanceRecord(@RequestParam String machineId) {
         try {
-            List<Maintenance> maintenanceList = maintenanceService.getMaintenanceRecord(machineId);
+            List<MaintenanceResponse> maintenanceList = maintenanceService.getMaintenanceRecord(machineId);
             return new ResponseEntity<>(maintenanceList, HttpStatus.OK);
         }
         catch (RuntimeException e) {

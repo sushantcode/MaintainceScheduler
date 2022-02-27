@@ -1,6 +1,7 @@
 package com.MaintainceScheduler.MSProducer.service.Implementation;
 
 import com.MaintainceScheduler.MSProducer.model.Machine;
+import com.MaintainceScheduler.MSProducer.model.MachineResponse;
 import com.MaintainceScheduler.MSProducer.model.Part;
 import com.MaintainceScheduler.MSProducer.repository.MachineRepository;
 import com.MaintainceScheduler.MSProducer.repository.PartRepository;
@@ -10,9 +11,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class MachineServiceImplementation implements MachineService {
@@ -36,10 +35,26 @@ public class MachineServiceImplementation implements MachineService {
     }
 
     @Override
-    public List<Machine> getMachine() {
-        List<Machine> machineList = machineRepository.findAll();
+    public List<MachineResponse> getMachine() {
+        List<Machine> machines = machineRepository.findAll();
+        List<MachineResponse> machineList = new ArrayList<>();
+        for (Machine machine : machines) {
+            Map<String, Part> partHashMap = machine.getPartHashMap();
+            List<Part> partList = new ArrayList<>();
+            for (Map.Entry mapElement : partHashMap.entrySet()) {
+                partList.add((Part) mapElement.getValue());
+            }
+            MachineResponse machineResponse = new MachineResponse(
+                    machine.getId(),
+                    machine.getLocation(),
+                    machine.getName(),
+                    machine.getSpecification(),
+                    partList
+            );
+            machineList.add(machineResponse);
+        }
         machineList.sort(
-                Comparator.comparing(Machine::getName)
+                Comparator.comparing(MachineResponse::getName)
         );
         return machineList;
     }

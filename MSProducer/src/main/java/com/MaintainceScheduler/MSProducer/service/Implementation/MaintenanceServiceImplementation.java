@@ -1,8 +1,6 @@
 package com.MaintainceScheduler.MSProducer.service.Implementation;
 
-import com.MaintainceScheduler.MSProducer.model.Machine;
-import com.MaintainceScheduler.MSProducer.model.Maintenance;
-import com.MaintainceScheduler.MSProducer.model.Part;
+import com.MaintainceScheduler.MSProducer.model.*;
 import com.MaintainceScheduler.MSProducer.repository.MachineRepository;
 import com.MaintainceScheduler.MSProducer.repository.MaintenanceRepository;
 import com.MaintainceScheduler.MSProducer.repository.PartRepository;
@@ -124,14 +122,31 @@ public class MaintenanceServiceImplementation implements MaintenanceService {
     }
 
     @Override
-    public List<Maintenance> getMaintenanceRecord(String machineId) {
+    public List<MaintenanceResponse> getMaintenanceRecord(String machineId) {
         if (machineRepository.existsById(machineId)) {
             Machine machine = machineRepository.getById(machineId);
             List<Maintenance> maintenanceList = new ArrayList<>(machine.getMaintenanceHashMap().values());
             maintenanceList.sort(
                     Comparator.comparing(Maintenance::getDate)
             );
-            return maintenanceList;
+            List<MaintenanceResponse> maintenanceResponseList = new ArrayList<>();
+            for (Maintenance m : maintenanceList) {
+                Map<String, Part> partMap = m.getPartsReplaced();
+                List<Part> partList = new ArrayList<>();
+                for (Map.Entry mapElement : partMap.entrySet()) {
+                    partList.add((Part) mapElement.getValue());
+                }
+                MaintenanceResponse maintenanceResponse = new MaintenanceResponse(
+                        m.getId(),
+                        m.getDate(),
+                        m.getMaintenanceDetail(),
+                        partList,
+                        m.getQuantity(),
+                        m.getRemarks()
+                );
+                maintenanceResponseList.add(maintenanceResponse);
+            }
+            return maintenanceResponseList;
         }
         else {
             throw new RuntimeException("Machine does not exist.");

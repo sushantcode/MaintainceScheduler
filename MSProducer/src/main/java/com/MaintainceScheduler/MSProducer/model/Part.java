@@ -4,8 +4,6 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -15,7 +13,7 @@ public class Part implements Serializable {
     @Id
     private String id;
     private String name;
-    private Long quantity;
+    private Long quantity = Long.valueOf(1);
     private String specification;
 
     public Part() {
