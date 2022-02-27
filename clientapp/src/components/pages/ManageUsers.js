@@ -50,7 +50,6 @@ const ManageUsers = () => {
   function getUserList() {
     axios.get(API_URL + '/admin/listUsers')
     .then((response) => {
-      console.log(response.data);
       if (Array.isArray(response.data)) {
         setUserList(response.data); 
         setError(null);

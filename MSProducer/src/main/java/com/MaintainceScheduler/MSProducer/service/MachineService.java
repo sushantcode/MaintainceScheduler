@@ -1,6 +1,7 @@
 package com.MaintainceScheduler.MSProducer.service;
 
 import com.MaintainceScheduler.MSProducer.model.Machine;
+import com.MaintainceScheduler.MSProducer.model.MachineResponse;
 import com.MaintainceScheduler.MSProducer.model.Part;
 
 import java.util.List;
@@ -8,7 +9,7 @@ import java.util.List;
 public interface MachineService {
 
     void addNewMachine(Machine machine);
-    List<Machine> getMachine();
+    List<MachineResponse> getMachine();
     void addMachinePart(String machineId, Part part);
     void removeMachine(String machineId);
     void removeMachinePart(String machineId, String partId);
