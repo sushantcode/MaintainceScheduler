@@ -60,6 +60,17 @@ public class UserController {
         }
     }
 
+    @GetMapping("/getMachineById")
+    public ResponseEntity<?> getMachineById(@RequestParam String machineId) {
+        try {
+            MachineResponse machine = machineService.getMachineById(machineId);
+            return new ResponseEntity<>(machine, HttpStatus.OK);
+        }
+        catch (RuntimeException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @PostMapping("addMachinePart")
     public ResponseEntity<?> addMachinePart(
             @RequestParam String machineId,

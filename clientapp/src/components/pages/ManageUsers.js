@@ -194,6 +194,11 @@ const ManageUsers = () => {
                       />
                     </InputGroup>
                   </Form.Group>
+                  <input 
+                    type="submit" 
+                    style={{display: "none"}} 
+                    disabled 
+                  />
                 </Form>
               </Card.Body>
             </Card>

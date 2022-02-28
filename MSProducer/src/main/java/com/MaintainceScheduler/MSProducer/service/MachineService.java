@@ -10,6 +10,7 @@ public interface MachineService {
 
     void addNewMachine(Machine machine);
     List<MachineResponse> getMachine();
+    MachineResponse getMachineById(String id);
     void addMachinePart(String machineId, Part part);
     void removeMachine(String machineId);
     void removeMachinePart(String machineId, String partId);
