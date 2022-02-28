@@ -32,7 +32,7 @@ const NavMenu = () => {
       </Link>
       {
         (role === "ADMIN") &&
-        <Link className='nav-link me-4' to="/admin">
+        <Link className='nav-link' to="/admin">
           Admin Portal
         </Link>
       }

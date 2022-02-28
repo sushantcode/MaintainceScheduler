@@ -148,8 +148,8 @@ const PartActionModal = (props) => {
             }
             <Card>
               <Card.Body>
-                <Form className="mb-2">
-                  <Form.Group as={Col}>
+                <Form>
+                  <Form.Group as={Col} className="mb-2">
                     <InputGroup>
                       <InputGroup.Text>
                         <FontAwesomeIcon icon={faFileClipboard} />
@@ -165,9 +165,7 @@ const PartActionModal = (props) => {
                       />
                     </InputGroup>
                   </Form.Group>
-                </Form>
-                <Form className="mb-2">
-                  <Form.Group as={Col}>
+                  <Form.Group as={Col} className="mb-2">
                     <InputGroup>
                       <InputGroup.Text>
                         <FontAwesomeIcon icon={faHashtag} />
@@ -183,9 +181,7 @@ const PartActionModal = (props) => {
                       />
                     </InputGroup>
                   </Form.Group>
-                </Form>
-                <Form className="mb-2">
-                  <Form.Group as={Col}>
+                  <Form.Group as={Col} className="mb-2">
                     <InputGroup>
                       <InputGroup.Text>
                         <FontAwesomeIcon icon={faCircleInfo} />
@@ -201,6 +197,11 @@ const PartActionModal = (props) => {
                       />
                     </InputGroup>
                   </Form.Group>
+                  <input 
+                    type="submit" 
+                    style={{display: "none"}} 
+                    disabled 
+                  />
                 </Form>
               </Card.Body>
             </Card>

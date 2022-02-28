@@ -88,8 +88,8 @@ const Login = () => {
             Login
           </Card.Header>
           <Card.Body>
-            <Form className="mb-4">
-              <Form.Group as={Col}>
+            <Form>
+              <Form.Group as={Col} className="mb-4">
                 <InputGroup>
                     <InputGroup.Text>
                       <FontAwesomeIcon icon={faUser} />
@@ -106,8 +106,6 @@ const Login = () => {
                   />
                 </InputGroup>
               </Form.Group>
-            </Form>
-            <Form>
               <Form.Group as={Col}>
                 <InputGroup>
                     <InputGroup.Text>
@@ -125,6 +123,11 @@ const Login = () => {
                   />
                 </InputGroup>
               </Form.Group>
+              <input 
+                type="submit" 
+                style={{display: "none"}} 
+                disabled 
+              />
             </Form>
           </Card.Body>
           <Card.Footer className="mb-3 mt-3" style={{ textAlign: "right" }}>

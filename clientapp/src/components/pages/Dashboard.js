@@ -25,36 +25,42 @@ const Dashboard = () => {
     <Container className='mb-5'>
       <Row className='mb-4 mt-4'>
         <Col className='border text-center'>
-          <Button variant='outline-secondary' className='fw-bold fs-2 my-4'>
-            <FontAwesomeIcon icon={faScrewdriverWrench} className="pe-3" />
-            Record New Service
-          </Button>
+          <Link to={"recordNewMaintenance"} state={{machineId: "9b67fe35-6065-43b1-a185-b7e43504e82e"}}>
+            <Button variant='outline-secondary' className='fw-bold fs-2 my-4'>
+              <FontAwesomeIcon icon={faScrewdriverWrench} className="pe-3" />
+              Record New Service
+            </Button>
+          </Link>
         </Col>
       </Row>
       <Row>
         <Col className='border mb-5'>
           <Row>
             <Col className='text-center mt-5'>
-              <Button variant='outline-secondary' className='fw-bold fs-4 py-3'>
-                <div className='fs-1'>
-                  <FontAwesomeIcon icon={faPenToSquare} />
-                </div>
-                <span className='fs-5'>
-                  Edit Maintenance Record
-                </span>
-              </Button>
+              {/* <Link to={"recordNewMaintenance"}> */}
+                <Button variant='outline-secondary' className='fw-bold fs-4 py-3'>
+                  <div className='fs-1'>
+                    <FontAwesomeIcon icon={faPenToSquare} />
+                  </div>
+                  <span className='fs-5'>
+                    Edit Maintenance Record
+                  </span>
+                </Button>
+              {/* </Link> */}
             </Col>
           </Row>
           <Row className='mb-5'>
             <Col className='text-center mt-5'>
-              <Button variant='outline-secondary' className='fw-bold fs-4 py-3'>
-                <div className='fs-1'>
-                  <FontAwesomeIcon icon={faPlusCircle} />
-                </div>
-                <span className='fs-5'>
-                  Add New Machine
-                </span>
-              </Button>
+              <Link to={"addNewMachine"}>
+                <Button variant='outline-secondary' className='fw-bold fs-4 py-3'>
+                  <div className='fs-1'>
+                    <FontAwesomeIcon icon={faPlusCircle} />
+                  </div>
+                  <span className='fs-5'>
+                    Add New Machine
+                  </span>
+                </Button>
+              </Link>
             </Col>
             <Col className='text-center mt-5'>
               <Link to={"manageMachine"}>

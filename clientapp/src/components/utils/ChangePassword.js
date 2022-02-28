@@ -94,8 +94,8 @@ const ChangePassword = () => {
             Change Password
           </Card.Header>
           <Card.Body>
-            <Form className="mb-2">
-              <Form.Group as={Col}>
+            <Form>
+              <Form.Group as={Col} className="mb-2">
                 <InputGroup>
                     <InputGroup.Text>
                       <FontAwesomeIcon icon={faLock} />
@@ -111,9 +111,7 @@ const ChangePassword = () => {
                   />
                 </InputGroup>
               </Form.Group>
-            </Form>
-            <Form className="mb-2">
-              <Form.Group as={Col}>
+              <Form.Group as={Col} className="mb-2">
                 <InputGroup>
                     <InputGroup.Text>
                       <FontAwesomeIcon icon={faLock} />
@@ -129,9 +127,7 @@ const ChangePassword = () => {
                   />
                 </InputGroup>
               </Form.Group>
-            </Form>
-            <Form className="mb-2">
-              <Form.Group as={Col}>
+              <Form.Group as={Col} className="mb-2">
                 <InputGroup>
                     <InputGroup.Text>
                       <FontAwesomeIcon icon={faLock} />
@@ -147,6 +143,11 @@ const ChangePassword = () => {
                   />
                 </InputGroup>
               </Form.Group>
+              <input 
+                type="submit" 
+                style={{display: "none"}} 
+                disabled 
+              />
             </Form>
           </Card.Body>
           <Card.Footer className="pt-2 pb-2 mt-3" style={{ textAlign: "right" }}>

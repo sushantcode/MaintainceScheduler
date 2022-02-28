@@ -40,23 +40,41 @@ public class MachineServiceImplementation implements MachineService {
         List<MachineResponse> machineList = new ArrayList<>();
         for (Machine machine : machines) {
             Map<String, Part> partHashMap = machine.getPartHashMap();
-            List<Part> partList = new ArrayList<>();
-            for (Map.Entry mapElement : partHashMap.entrySet()) {
-                partList.add((Part) mapElement.getValue());
-            }
-            MachineResponse machineResponse = new MachineResponse(
-                    machine.getId(),
-                    machine.getLocation(),
-                    machine.getName(),
-                    machine.getSpecification(),
-                    partList
-            );
+            MachineResponse machineResponse = partsMapToList(machine, partHashMap);
             machineList.add(machineResponse);
         }
         machineList.sort(
                 Comparator.comparing(MachineResponse::getName)
         );
         return machineList;
+    }
+
+    @Override
+    public MachineResponse getMachineById(String id) {
+        try {
+            Machine machine = machineRepository.getById(id);
+            Map<String, Part> partHashMap = machine.getPartHashMap();
+            MachineResponse machineResponse = partsMapToList(machine, partHashMap);;
+            return machineResponse;
+        }
+        catch (RuntimeException e) {
+            throw e;
+        }
+    }
+
+    private MachineResponse partsMapToList(Machine machine, Map<String, Part> partHashMap) {
+        List<Part> partList = new ArrayList<>();
+        for (Map.Entry mapElement : partHashMap.entrySet()) {
+            partList.add((Part) mapElement.getValue());
+        }
+        MachineResponse machineResponse = new MachineResponse(
+                machine.getId(),
+                machine.getLocation(),
+                machine.getName(),
+                machine.getSpecification(),
+                partList
+        );
+        return machineResponse;
     }
 
     @Override

@@ -1,13 +1,22 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { API_URL } from '../../utils/AuthenticationService';
+import AuthenticationService, { API_URL } from '../../utils/AuthenticationService';
 import { Tab, Row, Col, ListGroup } from 'react-bootstrap';
 import MachineDetails from './MachineDetails';
+import { useNavigate } from 'react-router-dom';
 
 const MachineList = () => {
+  let navigate = useNavigate();
+
   const [machines, setMachines] = useState();
   const [error, setError] = useState();
   const [updated, setUpdated] = useState(false);
+
+  useEffect(() => {
+    if (!AuthenticationService.isUserLoggedIn()) {
+      navigate('/login');
+    }
+  }, [navigate]);
 
   useEffect(() => {
     getMachines();
@@ -31,7 +40,7 @@ const MachineList = () => {
       console.log(err.message);
       setError(err.message);
     })
-  }
+  };
 
   let machineList = machines ? machines.map((data) => {
     return (

@@ -12,6 +12,8 @@ import ChangePassword from './components/utils/ChangePassword';
 import ManageUsers from './components/pages/ManageUsers';
 import AddNewUser from './components/pages/AddNewUser';
 import MachineList from './components/pages/machineService/MachineList';
+import AddNewMachine from './components/pages/machineService/AddNewMachine';
+import AddMaintenance from './components/pages/maintenanceService/AddMaintenance';
 
 function App() {
   return (
@@ -30,6 +32,8 @@ function App() {
             <Route path='/admin/manageUsers' element={<ManageUsers />} />
             <Route path='/admin/addNewUser' element={<AddNewUser />} />
             <Route path='/dashboard/manageMachine' element={<MachineList />} />
+            <Route path='/dashboard/addNewMachine' element={<AddNewMachine />} />
+            <Route path='/dashboard/recordNewMaintenance' element={<AddMaintenance />} />
           </Routes>
           </Col>
         </Row>

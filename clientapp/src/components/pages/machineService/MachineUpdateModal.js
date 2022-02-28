@@ -103,8 +103,8 @@ const MachineUpdateModal = (props) => {
             }
             <Card>
               <Card.Body>
-                <Form className="mb-2">
-                  <Form.Group as={Col}>
+                <Form>
+                  <Form.Group as={Col} className="mb-2">
                     <InputGroup>
                       <InputGroup.Text>
                         <FontAwesomeIcon icon={faFileClipboard} className='me-2' /> Name
@@ -120,9 +120,7 @@ const MachineUpdateModal = (props) => {
                       />
                     </InputGroup>
                   </Form.Group>
-                </Form>
-                <Form className="mb-2">
-                  <Form.Group as={Col}>
+                  <Form.Group as={Col} className="mb-2">
                     <InputGroup>
                       <InputGroup.Text>
                         <FontAwesomeIcon icon={faLocationArrow} className='me-2' /> Location
@@ -138,9 +136,7 @@ const MachineUpdateModal = (props) => {
                       />
                     </InputGroup>
                   </Form.Group>
-                </Form>
-                <Form className="mb-2">
-                  <Form.Group as={Col}>
+                  <Form.Group as={Col} className="mb-2">
                     <InputGroup>
                       <InputGroup.Text>
                         <FontAwesomeIcon icon={faCircleInfo} className='me-2' /> Specification
@@ -220,8 +216,8 @@ const MachineUpdateModal = (props) => {
             }
             <Card>
               <Card.Body>
-                <Form className="mb-2">
-                  <Form.Group as={Col}>
+                <Form>
+                  <Form.Group as={Col} className="mb-2">
                     <InputGroup>
                       <InputGroup.Text>
                         <FontAwesomeIcon icon={faFileClipboard} />
@@ -237,9 +233,7 @@ const MachineUpdateModal = (props) => {
                       />
                     </InputGroup>
                   </Form.Group>
-                </Form>
-                <Form className="mb-2">
-                  <Form.Group as={Col}>
+                  <Form.Group as={Col} className="mb-2">
                     <InputGroup>
                       <InputGroup.Text>
                         <FontAwesomeIcon icon={faHashtag} />
@@ -255,9 +249,7 @@ const MachineUpdateModal = (props) => {
                       />
                     </InputGroup>
                   </Form.Group>
-                </Form>
-                <Form className="mb-2">
-                  <Form.Group as={Col}>
+                  <Form.Group as={Col} className="mb-2">
                     <InputGroup>
                       <InputGroup.Text>
                         <FontAwesomeIcon icon={faCircleInfo} />
@@ -273,6 +265,11 @@ const MachineUpdateModal = (props) => {
                       />
                     </InputGroup>
                   </Form.Group>
+                  <input 
+                    type="submit" 
+                    style={{display: "none"}} 
+                    disabled 
+                  />
                 </Form>
               </Card.Body>
             </Card>

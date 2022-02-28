@@ -145,8 +145,8 @@ const AddNewUser = () => {
             Register New User
           </Card.Header>
           <Card.Body>
-            <Form className="mb-2">
-              <Form.Group as={Col}>
+            <Form>
+              <Form.Group as={Col} className="mb-2">
                 <InputGroup>
                     <InputGroup.Text>
                       <FontAwesomeIcon icon={faInfo} />
@@ -171,9 +171,7 @@ const AddNewUser = () => {
                   />
                 </InputGroup>
               </Form.Group>
-            </Form>
-            <Form className="mb-2">
-              <Form.Group as={Col}>
+              <Form.Group as={Col} className="mb-2">
                 <InputGroup>
                     <InputGroup.Text>
                       <FontAwesomeIcon icon={faUser} />
@@ -189,9 +187,7 @@ const AddNewUser = () => {
                   />
                 </InputGroup>
               </Form.Group>
-            </Form>
-            <Form className="mb-2">
-              <Form.Group as={Col}>
+              <Form.Group as={Col} className="mb-2">
                 <InputGroup>
                     <InputGroup.Text>
                       <FontAwesomeIcon icon={faEnvelope} />
@@ -207,9 +203,7 @@ const AddNewUser = () => {
                   />
                 </InputGroup>
               </Form.Group>
-            </Form>
-            <Form className="mb-2">
-              <Form.Group as={Col}>
+              <Form.Group as={Col} className="mb-2">
                 <InputGroup>
                     <InputGroup.Text>
                       <FontAwesomeIcon icon={faLock} />
@@ -225,9 +219,7 @@ const AddNewUser = () => {
                   />
                 </InputGroup>
               </Form.Group>
-            </Form>
-            <Form className="mb-2">
-              <Form.Group as={Col}>
+              <Form.Group as={Col} className="mb-2">
                 <InputGroup>
                     <InputGroup.Text>
                       <FontAwesomeIcon icon={faLock} />
@@ -243,9 +235,7 @@ const AddNewUser = () => {
                   />
                 </InputGroup>
               </Form.Group>
-            </Form>
-            <Form className="mb-2">
-              <Form.Group as={Col}>
+              <Form.Group as={Col} className="mb-2">
                 <InputGroup>
                   <InputGroup.Text>
                     <FontAwesomeIcon icon={faUserLock} />
@@ -276,6 +266,11 @@ const AddNewUser = () => {
                   </ToggleButton>
                 </InputGroup>
               </Form.Group>
+              <input 
+                type="submit" 
+                style={{display: "none"}} 
+                disabled 
+              />
             </Form>
           </Card.Body>
           <Card.Footer className="pt-2 pb-2 mt-3" style={{ textAlign: "right" }}>
