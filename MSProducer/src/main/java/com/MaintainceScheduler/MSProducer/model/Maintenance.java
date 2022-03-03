@@ -18,10 +18,19 @@ public class Maintenance {
             CascadeType.ALL
     })
     private Map<String, Part> partsReplaced = new HashMap<>();
-    private Long quantity;
+    private Long quantity = Long.valueOf(1);
     private String remarks;
 
     public Maintenance() {
         this.Id = UUID.randomUUID().toString();
+    }
+
+    public Maintenance(String maintenanceDetail, Map<String, Part> partsReplaced, Long quantity, String remarks) {
+        this.Id = UUID.randomUUID().toString();
+        this.date = new Date();
+        this.maintenanceDetail = maintenanceDetail;
+        this.partsReplaced = partsReplaced;
+        this.quantity = quantity;
+        this.remarks = remarks;
     }
 }
