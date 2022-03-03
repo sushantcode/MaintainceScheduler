@@ -28,11 +28,16 @@ import axios from 'axios';
 const AddNewUser = () => {
   let navigate = useNavigate();
 
+  let isloggedIn = AuthenticationService.isUserLoggedIn();
+
   useEffect(() => {
-    if (!AuthenticationService.isUserLoggedIn()) {
+    if (!isloggedIn) {
       navigate('/login');
     }
-  }, [navigate])
+    else if (AuthenticationService.getLoggedInUserRole() === 'USER') {
+      navigate('/dashboard')
+    }
+  }, [isloggedIn, navigate]);
 
   const initialState = {
     fname: "",

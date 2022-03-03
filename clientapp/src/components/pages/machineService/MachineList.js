@@ -66,12 +66,12 @@ const MachineList = () => {
 
   return (
     <Tab.Container defaultActiveKey={machines ? `#${machines[0].id}` : ''}>
-      <Row>
+      <Row className='mt-4'>
         {
           machineList ?
           (
             <>
-              <Col sm={4} className='mt-4'>
+              <Col sm={4} className='mb-4'>
                 {machineList ? 
                   (
                     <ListGroup as="ol" numbered>
@@ -86,7 +86,7 @@ const MachineList = () => {
                   )
                 }
               </Col>
-              <Col sm={8} className='mt-4'>
+              <Col sm={8} className='mb-4'>
                 <Tab.Content>
                   {machineDescription}
                 </Tab.Content>

@@ -26,7 +26,7 @@ const Dashboard = () => {
     <Container className='mb-5'>
       <Row className='mb-4 mt-4'>
         <Col className='border text-center'>
-          <Link to={"recordNewMaintenance"} state={{machineId: "9b67fe35-6065-43b1-a185-b7e43504e82e"}}>
+          <Link to={"recordNewMaintenance"}>
             <Button variant='outline-secondary' className='fw-bold fs-2 my-4'>
               <FontAwesomeIcon icon={faScrewdriverWrench} className="pe-3" />
               Record New Service
