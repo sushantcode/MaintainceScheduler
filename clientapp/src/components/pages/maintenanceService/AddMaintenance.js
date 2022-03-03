@@ -14,7 +14,7 @@ from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { Alert, Button, Card, Col, Dropdown, Form, FormControl, InputGroup, Row, Table } from 'react-bootstrap';
+import { Alert, Button, Card, Col, Container, Dropdown, Form, FormControl, InputGroup, Row, Table } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import AuthenticationService, { API_URL } from '../../utils/AuthenticationService';
 import './Maintenance.css';
@@ -218,155 +218,157 @@ const AddMaintenance = () => {
   };
 
   return (
-    <Row className="justify-content-md-center mt-4">
-      <Col lg={10}>
-        {success && (
-          <Alert variant="success" onClose={() => setShow(false)} dismissible>
-            New maintenance record added successfully!!!
-          </Alert>
-        )}
-        {show && error && (
-          <Alert variant="danger" onClose={() => setShow(false)} dismissible>
-            {error}
-          </Alert>
-        )}
-        <Card>
-          <Card.Header className="text-center fs-4">
-            Enter detail information for this service?
-          </Card.Header>
-          <Card.Body>
-            <Form className="mt-3">
-              <Form.Group as={Col} className="mb-3">
-                <InputGroup>
-                  <InputGroup.Text>
-                    <FontAwesomeIcon icon={faFileClipboard} className='me-2' /> Details
-                  </InputGroup.Text>
-                  <FormControl
-                    required
-                    autoComplete="off"
-                    type="text"
-                    name="maintenanceDetail"
-                    value={maintenance.maintenanceDetail}
-                    onChange={maintainenaceInputChange}
-                    placeholder="Enter details"
-                  />
-                </InputGroup>
-              </Form.Group>
-              <Form.Group as={Col} className="mb-3">
-                <InputGroup>
-                  <InputGroup.Text>
-                    <FontAwesomeIcon icon={faHashtag} className='me-2' /> Quantity
-                  </InputGroup.Text>
-                  <FormControl
-                    required
-                    autoComplete="off"
-                    type="number"
-                    name="quantity"
-                    value={maintenance.quantity}
-                    onChange={maintainenaceInputChange}
-                    placeholder="Enter the quantity"
-                  />
-                </InputGroup>
-              </Form.Group>
-              <Form.Group as={Col} className="mb-3">
-                <InputGroup>
-                  <InputGroup.Text>
-                    <FontAwesomeIcon icon={faCircleInfo} className='me-2' /> Remarks
-                  </InputGroup.Text>
-                  <FormControl
-                    required
-                    autoComplete="off"
-                    type="text"
-                    name="remarks"
-                    value={maintenance.remarks}
-                    onChange={maintainenaceInputChange}
-                    placeholder="Enter the remarks"
-                  />
-                </InputGroup>
-              </Form.Group>
-              <Form.Group as={Col} className="mb-3">
-                <InputGroup>
-                  <InputGroup.Text className='me-2'>
-                    <FontAwesomeIcon icon={faWrench} className='me-2' /> Parts
-                  </InputGroup.Text>
-                  <Dropdown>
-                    <Dropdown.Toggle className='dropdown_headers'>
-                      Select Parts from Available list
-                    </Dropdown.Toggle>
-                    <Dropdown.Menu>
-                      {availablePartsList}
-                    </Dropdown.Menu>
-                  </Dropdown>
-                  <InputGroup.Text className='mx-2'>
-                    OR
-                  </InputGroup.Text>
-                  <Button variant='secondary' onClick={() => setShowAddPart(true)}>
-                    Add new part
-                  </Button>
-                </InputGroup>
-              </Form.Group>
-              <Form.Group as={Col} className="mb-3">
-                <InputGroup>
-                  <div className='selected_parts'>
-                    {selectedParts}
-                  </div>
-                </InputGroup>
-              </Form.Group>
-              <input 
-                type="submit" 
-                style={{display: "none"}} 
-                disabled 
-              />
-            </Form>
-          </Card.Body>
-          <Card.Footer className="py-3" style={{ textAlign: "right" }}>
-            <Button
-              className="me-3"
-              size="sm"
-              type="button"
-              variant="success"
-              onClick={() => onSubmit()}
-              disabled={
-                maintenance.maintenanceDetail.length === 0
-              }
-            >
-              <FontAwesomeIcon icon={faUpload} /> Submit
-            </Button>
-            <Button
-              size="sm"
-              type="button"
-              variant="info"
-              onClick={() => resetForm()}
-              disabled={
-                maintenance.maintenanceDetail.length === 0 &&
-                maintenance.remarks.length === 0
-              }
-            >
-              <FontAwesomeIcon icon={faUndo} /> Reset
-            </Button>
-          </Card.Footer>
-        </Card>
-        {
-          showMachineList && 
-          <SelectMachineModal 
-            show={showMachineList} 
-            setShow={setShowMachineList}
-            setMachine={setMachine}
-          />
-        }
-        {
-          showAddPart &&
-          <AddNewPartModal
-            show={showAddPart}
-            setShow={setShowAddPart}
-            selectedParts={selectedPartDisplay}
-            setSelectedParts={setSelectedPartDisplay}
-            maintenance={maintenance}
-            setMaintenance={setMaintenance}
-          />
-        }
-      </Col>
-    </Row>
+    <Container fluid className='mb-5'>
+      <Row className="justify-content-md-center mt-4">
+        <Col lg={10}>
+          {success && (
+            <Alert variant="success" onClose={() => setShow(false)} dismissible>
+              New maintenance record added successfully!!!
+            </Alert>
+          )}
+          {show && error && (
+            <Alert variant="danger" onClose={() => setShow(false)} dismissible>
+              {error}
+            </Alert>
+          )}
+          <Card>
+            <Card.Header className="text-center fs-4">
+              Enter detail information for this service?
+            </Card.Header>
+            <Card.Body>
+              <Form className="mt-3">
+                <Form.Group as={Col} className="mb-3">
+                  <InputGroup>
+                    <InputGroup.Text>
+                      <FontAwesomeIcon icon={faFileClipboard} className='me-2' /> Details
+                    </InputGroup.Text>
+                    <FormControl
+                      required
+                      autoComplete="off"
+                      type="text"
+                      name="maintenanceDetail"
+                      value={maintenance.maintenanceDetail}
+                      onChange={maintainenaceInputChange}
+                      placeholder="Enter details"
+                    />
+                  </InputGroup>
+                </Form.Group>
+                <Form.Group as={Col} className="mb-3">
+                  <InputGroup>
+                    <InputGroup.Text>
+                      <FontAwesomeIcon icon={faHashtag} className='me-2' /> Quantity
+                    </InputGroup.Text>
+                    <FormControl
+                      required
+                      autoComplete="off"
+                      type="number"
+                      name="quantity"
+                      value={maintenance.quantity}
+                      onChange={maintainenaceInputChange}
+                      placeholder="Enter the quantity"
+                    />
+                  </InputGroup>
+                </Form.Group>
+                <Form.Group as={Col} className="mb-3">
+                  <InputGroup>
+                    <InputGroup.Text>
+                      <FontAwesomeIcon icon={faCircleInfo} className='me-2' /> Remarks
+                    </InputGroup.Text>
+                    <FormControl
+                      required
+                      autoComplete="off"
+                      type="text"
+                      name="remarks"
+                      value={maintenance.remarks}
+                      onChange={maintainenaceInputChange}
+                      placeholder="Enter the remarks"
+                    />
+                  </InputGroup>
+                </Form.Group>
+                <Form.Group as={Col} className="mb-3">
+                  <InputGroup>
+                    <InputGroup.Text className='me-2'>
+                      <FontAwesomeIcon icon={faWrench} className='me-2' /> Parts
+                    </InputGroup.Text>
+                    <Dropdown>
+                      <Dropdown.Toggle className='dropdown_headers'>
+                        Select Parts from Available list
+                      </Dropdown.Toggle>
+                      <Dropdown.Menu>
+                        {availablePartsList}
+                      </Dropdown.Menu>
+                    </Dropdown>
+                    <InputGroup.Text className='mx-2'>
+                      OR
+                    </InputGroup.Text>
+                    <Button variant='secondary' onClick={() => setShowAddPart(true)}>
+                      Add new part
+                    </Button>
+                  </InputGroup>
+                </Form.Group>
+                <Form.Group as={Col} className="mb-3">
+                  <InputGroup>
+                    <div className='selected_parts'>
+                      {selectedParts}
+                    </div>
+                  </InputGroup>
+                </Form.Group>
+                <input 
+                  type="submit" 
+                  style={{display: "none"}} 
+                  disabled 
+                />
+              </Form>
+            </Card.Body>
+            <Card.Footer className="py-3" style={{ textAlign: "right" }}>
+              <Button
+                className="me-3"
+                size="sm"
+                type="button"
+                variant="success"
+                onClick={() => onSubmit()}
+                disabled={
+                  maintenance.maintenanceDetail.length === 0
+                }
+              >
+                <FontAwesomeIcon icon={faUpload} /> Submit
+              </Button>
+              <Button
+                size="sm"
+                type="button"
+                variant="info"
+                onClick={() => resetForm()}
+                disabled={
+                  maintenance.maintenanceDetail.length === 0 &&
+                  maintenance.remarks.length === 0
+                }
+              >
+                <FontAwesomeIcon icon={faUndo} /> Reset
+              </Button>
+            </Card.Footer>
+          </Card>
+          {
+            showMachineList && 
+            <SelectMachineModal 
+              show={showMachineList} 
+              setShow={setShowMachineList}
+              setMachine={setMachine}
+            />
+          }
+          {
+            showAddPart &&
+            <AddNewPartModal
+              show={showAddPart}
+              setShow={setShowAddPart}
+              selectedParts={selectedPartDisplay}
+              setSelectedParts={setSelectedPartDisplay}
+              maintenance={maintenance}
+              setMaintenance={setMaintenance}
+            />
+          }
+        </Col>
+      </Row>
+    </Container>
   );
 }
 

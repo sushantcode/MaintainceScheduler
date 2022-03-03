@@ -62,7 +62,7 @@ const AddNewMachine = () => {
       setShow(true);
       resetForm();
     });
-  }
+  };
 
   const resetForm = () => {
     setMachine(initialMachine);

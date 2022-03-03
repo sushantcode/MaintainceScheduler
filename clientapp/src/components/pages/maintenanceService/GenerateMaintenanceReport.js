@@ -1,4 +1,4 @@
-import { faCalendarMinus, faCalendarPlus, faUndo, faUpload } from '@fortawesome/free-solid-svg-icons';
+import { faCalendarMinus, faCalendarPlus, faUndo, faUpload, faWrench } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
 import download from 'downloadjs';
@@ -91,7 +91,22 @@ const GenerateMaintenanceReport = () => {
                 <Form.Group as={Col} className="mb-3">
                   <InputGroup>
                     <InputGroup.Text>
-                      <FontAwesomeIcon icon={faCalendarPlus} className='me-2' /> From
+                      <FontAwesomeIcon icon={faWrench} className='me-2' /> Selected Machine
+                    </InputGroup.Text>
+                    <FormControl
+                      required
+                      autoComplete="off"
+                      type="text"
+                      name="from"
+                      value={machine ? machine.name : ''}
+                      disabled
+                    />
+                  </InputGroup>
+                </Form.Group>
+                <Form.Group as={Col} className="mb-3">
+                  <InputGroup>
+                    <InputGroup.Text>
+                      <FontAwesomeIcon icon={faCalendarPlus} className='me-2' /> Report From
                     </InputGroup.Text>
                     <FormControl
                       required
@@ -107,7 +122,7 @@ const GenerateMaintenanceReport = () => {
                 <Form.Group as={Col} className="mb-3">
                   <InputGroup>
                     <InputGroup.Text>
-                      <FontAwesomeIcon icon={faCalendarMinus} className='me-2' /> To
+                      <FontAwesomeIcon icon={faCalendarMinus} className='me-2' /> Report To
                     </InputGroup.Text>
                     <FormControl
                       required

@@ -61,8 +61,9 @@ public class MaintenancePDFExporter {
     private String partsToString(List<Part> partList) {
         String result = "";
         for (Part p : partList) {
-            result += p.getName();
+            result += ", " + p.getName();
         }
+        result = result.substring(2);
         return result;
     }
 
