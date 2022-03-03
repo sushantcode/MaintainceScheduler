@@ -241,6 +241,7 @@ public class UserController {
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date from,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)  Date to
     ) throws DocumentException, IOException {
+        logger.info(from);
         response.setContentType("application/pdf");
         DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
         String currentDateTime = dateFormatter.format(new Date());

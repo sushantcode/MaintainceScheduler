@@ -1,9 +1,11 @@
 import { faCalendarMinus, faCalendarPlus, faUndo, faUpload } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import axios from 'axios';
+import download from 'downloadjs';
 import React, { useEffect, useState } from 'react';
 import { Alert, Button, Card, Col, Form, FormControl, InputGroup, Row } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import AuthenticationService from '../../utils/AuthenticationService';
+import AuthenticationService, { API_URL } from '../../utils/AuthenticationService';
 import SelectMachineModal from './SelectMachineModal';
 
 const GenerateMaintenanceReport = () => {
@@ -20,7 +22,7 @@ const GenerateMaintenanceReport = () => {
   const [showMachineList, setShowMachineList] = useState(true);
   const [machine, setMachine] = useState();
   const [error, setError] = useState();
-  const [show, setShow] = useState(true);
+  const [show, setShow] = useState(false);
   const [success, setSuccess] = useState(false);
   const [fromDate, setFromDate] = useState(currDate);
   const [toDate, setToDate] = useState(currDate);
@@ -31,6 +33,37 @@ const GenerateMaintenanceReport = () => {
     }
   }, [showMachineList, navigate, machine]);
 
+  const onSubmit = () => {
+    const url = API_URL + 
+                '/user/generatePdf?machineId=' + machine.id + 
+                '&from=' + fromDate.toISOString() + 
+                '&to=' + toDate.toISOString();
+    axios.get(url, {
+      responseType: 'blob'
+    })
+    .then((resposnse) => {
+      const content = resposnse.headers["content-type"];
+      const fileName = "maintenance_" + 
+                      fromDate.getUTCFullYear().toString() + "-" +
+                      (fromDate.getUTCMonth() + 1).toString() + "-" +
+                      fromDate.getUTCDate().toString() + "_" +
+                      toDate.getUTCFullYear().toString() + "-" +
+                      (toDate.getUTCMonth() + 1).toString() + "-" +
+                      toDate.getUTCDate().toString();
+      setError(null);
+      setSuccess(true);
+      setShow(true);
+      download(resposnse.data, fileName, content)
+      resetForm();
+    })
+    .catch((err) => {
+      setError(err.message);
+      setShow(true);
+      setSuccess(false);
+      resetForm();
+    });
+  }
+
   const resetForm = () => {
     setFromDate(currDate);
     setToDate(currDate);
@@ -38,10 +71,10 @@ const GenerateMaintenanceReport = () => {
 
   return (
     <Row className="justify-content-md-center mt-4">
-      <Col lg={10}>
-        {success && (
+      <Col lg={6}>
+        {show && success && (
           <Alert variant="success" onClose={() => setShow(false)} dismissible>
-            New maintenance record added successfully!!!
+            Requested report is downloaded successfully!!!
           </Alert>
         )}
         {show && error && (
@@ -65,9 +98,9 @@ const GenerateMaintenanceReport = () => {
                       autoComplete="off"
                       type="date"
                       name="from"
-                      value={fromDate}
+                      value={fromDate.toISOString().substring(0, 10)}
                       onChange={(e) => setFromDate(new Date(e.target.value))}
-                      placeholder={fromDate}
+                      placeholder={"sd"}
                     />
                   </InputGroup>
                 </Form.Group>
@@ -81,9 +114,9 @@ const GenerateMaintenanceReport = () => {
                       autoComplete="off"
                       type="date"
                       name="to"
-                      value={toDate}
+                      value={toDate.toISOString().substring(0, 10)}
                       onChange={(e) => setToDate(new Date(e.target.value))}
-                      placeholder={toDate}
+                      placeholder={"toDate.substring(0, 10)"}
                     />
                   </InputGroup>
                 </Form.Group>
@@ -95,10 +128,9 @@ const GenerateMaintenanceReport = () => {
                 size="sm"
                 type="button"
                 variant="success"
-                onClick={() => console.log(fromDate.toISOString(), toDate)}
+                onClick={() => onSubmit()}
                 disabled={
-                  fromDate.length === 0 ||
-                  toDate.length === 0
+                  fromDate.getTime() >= toDate.getTime()
                 }
               >
                 <FontAwesomeIcon icon={faUpload} /> Submit
@@ -109,8 +141,8 @@ const GenerateMaintenanceReport = () => {
                 variant="info"
                 onClick={() => resetForm()}
                 disabled={
-                  fromDate.length === 0 &&
-                  toDate.length === 0
+                  fromDate.getTime() === currDate.getTime() &&
+                  toDate.getTime() === currDate.getTime()
                 }
               >
                 <FontAwesomeIcon icon={faUndo} /> Reset

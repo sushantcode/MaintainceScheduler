@@ -2,8 +2,11 @@ package com.MaintainceScheduler.MSProducer.utils;
 
 import java.awt.Color;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -74,12 +77,15 @@ public class MaintenancePDFExporter {
 
         Paragraph p1 = new Paragraph("Maintenance Record", font);
         p1.setAlignment(Paragraph.ALIGN_CENTER);
-
-        String dateRange = from.toString() + " - " + to.toString();
-        Paragraph p2 = new Paragraph("dateRange", font);
-        p2.setAlignment(Paragraph.ALIGN_RIGHT);
-
         document.add(p1);
+
+        DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        String dateRange = df.format(from) + " - " + df.format(to);
+        font.setSize(12);
+        font.setColor(Color.red);
+        Paragraph p2 = new Paragraph(dateRange, font);
+        p2.setAlignment(Paragraph.ALIGN_RIGHT);
+        document.add(p2);
 
         PdfPTable table = new PdfPTable(5);
         table.setWidthPercentage(100f);

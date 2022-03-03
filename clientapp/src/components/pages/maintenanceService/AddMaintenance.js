@@ -195,9 +195,7 @@ const AddMaintenance = () => {
   );
 
   const onSubmit = () => {
-    console.log(maintenance);
     const url = API_URL + '/user/recordNewMaintenance?machineId=' + machine.id;
-    resetForm();
     axios.post(url, maintenance)
     .then((resposnse) => {
       console.log(resposnse.data);
