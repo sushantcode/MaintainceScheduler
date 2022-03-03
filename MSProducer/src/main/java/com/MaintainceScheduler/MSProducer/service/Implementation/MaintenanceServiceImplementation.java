@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class MaintenanceServiceImplementation implements MaintenanceService {
@@ -23,8 +24,9 @@ public class MaintenanceServiceImplementation implements MaintenanceService {
     private PartRepository partRepository;
 
     @Override
-    public void recordNewMaintenance(String machineId, Maintenance maintenance) {
+    public void recordNewMaintenance(String machineId, MaintenanceResponse maintenanceResponse) {
         if (machineRepository.existsById(machineId)) {
+            Maintenance maintenance = toMaintenance(maintenanceResponse);
             Machine machine = machineRepository.getById(machineId);
             maintenanceRepository.save(maintenance);
             machine.getMaintenanceHashMap().put(maintenance.getId(), maintenance);
@@ -33,6 +35,21 @@ public class MaintenanceServiceImplementation implements MaintenanceService {
         else {
             throw new RuntimeException("Machine does not exist.");
         }
+    }
+
+    private Maintenance toMaintenance(MaintenanceResponse maintenanceResponse) {
+        Map<String, Part> partMap = new HashMap<>();
+        List<Part> partList = maintenanceResponse.getPartsReplaced();
+        for (Part p : partList) {
+            partMap.put(p.getId(), p);
+        }
+        Maintenance maintenance = new Maintenance(
+                maintenanceResponse.getMaintenanceDetail(),
+                partMap,
+                maintenanceResponse.getQuantity(),
+                maintenanceResponse.getRemarks()
+        );
+        return maintenance;
     }
 
     @Override
@@ -151,5 +168,15 @@ public class MaintenanceServiceImplementation implements MaintenanceService {
         else {
             throw new RuntimeException("Machine does not exist.");
         }
+    }
+
+    @Override
+    public List<MaintenanceResponse> getMaintenanceRecordByDate(String machineId, Date from, Date to) {
+        List<MaintenanceResponse> maintenanceResponseList = getMaintenanceRecord(machineId);
+        return maintenanceResponseList
+                .stream()
+                .filter(
+                        m -> m.getDate().after(from) && m.getDate().before(to)
+                ).collect(Collectors.toList());
     }
 }

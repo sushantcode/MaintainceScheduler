@@ -7,6 +7,7 @@ import {
         faPenToSquare, 
         faPlusCircle,
         faListCheck,
+        faChartBar,
   } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -36,17 +37,29 @@ const Dashboard = () => {
       <Row>
         <Col className='border mb-5'>
           <Row>
-            <Col className='text-center mt-5'>
+            {/* <Col className='text-center mt-5'> */}
               {/* <Link to={"recordNewMaintenance"}> */}
-                <Button variant='outline-secondary' className='fw-bold fs-4 py-3'>
+                {/* <Button variant='outline-secondary' className='fw-bold fs-4 py-3'>
                   <div className='fs-1'>
                     <FontAwesomeIcon icon={faPenToSquare} />
                   </div>
                   <span className='fs-5'>
                     Edit Maintenance Record
                   </span>
-                </Button>
+                </Button> */}
               {/* </Link> */}
+            {/* </Col> */}
+            <Col className='text-center mt-5'>
+              <Link to={"generateMaintenanceReport"}>
+                <Button variant='outline-secondary' className='fw-bold fs-4 py-3'>
+                  <div className='fs-1'>
+                    <FontAwesomeIcon icon={faChartBar} />
+                  </div>
+                  <span className='fs-5'>
+                    Generate Maintenance Report
+                  </span>
+                </Button>
+              </Link>
             </Col>
           </Row>
           <Row className='mb-5'>
