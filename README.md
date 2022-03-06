@@ -1,4 +1,4 @@
-# TexasHamburger
+# Maintenace Scheduler
 A fully developed and working prototype for a web application that can be used by assembly as well as manufacturing industries which need proper records of it's machinery maintenance in a systematic manner along with great UI. The prototype is developed using Java Spring Boot in backend and ReactJS in frontend.
 
 ## Features
@@ -7,6 +7,7 @@ A fully developed and working prototype for a web application that can be used b
 - Role-based authentication and authorization is implmented.
 - All frontend routes and backend endpoints are restricted to certain group of users as per the need.
 - All users and application data is stored in SQL database.
+- It provides responsive web app UI to the users.
 - Users sensitive information like password is encrypted before pushing to database.
 - All users can update their basic user info and also change their password after logining into the system.
 - User with admin access can add, remove, and reset password to other users.
