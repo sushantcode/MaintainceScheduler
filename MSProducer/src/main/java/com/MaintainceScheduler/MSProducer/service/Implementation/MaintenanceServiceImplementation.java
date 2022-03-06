@@ -44,6 +44,7 @@ public class MaintenanceServiceImplementation implements MaintenanceService {
             partMap.put(p.getId(), p);
         }
         Maintenance maintenance = new Maintenance(
+                maintenanceResponse.getUsername(),
                 maintenanceResponse.getMaintenanceDetail(),
                 partMap,
                 maintenanceResponse.getQuantity(),
@@ -156,6 +157,7 @@ public class MaintenanceServiceImplementation implements MaintenanceService {
                 MaintenanceResponse maintenanceResponse = new MaintenanceResponse(
                         m.getId(),
                         m.getDate(),
+                        m.getUsername(),
                         m.getMaintenanceDetail(),
                         partList,
                         m.getQuantity(),

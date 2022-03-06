@@ -13,6 +13,8 @@ public class Maintenance {
     private String Id;
     @Temporal(TemporalType.TIMESTAMP)
     private Date date;
+    @Column(nullable = false)
+    private String username;
     private String maintenanceDetail;
     @OneToMany(cascade = {
             CascadeType.ALL
@@ -25,9 +27,10 @@ public class Maintenance {
         this.Id = UUID.randomUUID().toString();
     }
 
-    public Maintenance(String maintenanceDetail, Map<String, Part> partsReplaced, Long quantity, String remarks) {
+    public Maintenance(String username, String maintenanceDetail, Map<String, Part> partsReplaced, Long quantity, String remarks) {
         this.Id = UUID.randomUUID().toString();
         this.date = new Date();
+        this.username = username;
         this.maintenanceDetail = maintenanceDetail;
         this.partsReplaced = partsReplaced;
         this.quantity = quantity;
