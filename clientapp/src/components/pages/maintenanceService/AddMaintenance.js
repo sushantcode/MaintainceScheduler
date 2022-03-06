@@ -31,6 +31,7 @@ const AddMaintenance = () => {
   }, [navigate]);
 
   const initialMantenance = {
+    username: AuthenticationService.getLoggedInUsername(),
     maintenanceDetail: '',
     partsReplaced: [],
     quantity: '1',
@@ -194,7 +195,8 @@ const AddMaintenance = () => {
     </Table>
   );
 
-  const onSubmit = () => {
+  const onSubmit = (e) => {
+    e.preventDefault();
     const url = API_URL + '/user/recordNewMaintenance?machineId=' + machine.id;
     axios.post(url, maintenance)
     .then((resposnse) => {
@@ -326,7 +328,7 @@ const AddMaintenance = () => {
                 size="sm"
                 type="button"
                 variant="success"
-                onClick={() => onSubmit()}
+                onClick={(e) => onSubmit(e)}
                 disabled={
                   maintenance.maintenanceDetail.length === 0
                 }

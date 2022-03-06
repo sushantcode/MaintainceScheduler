@@ -41,7 +41,8 @@ const MachineUpdateModal = (props) => {
     setPart({ ...part, [name]: value });
   };
 
-  const onMachineInfoSubmit = () => {
+  const onMachineInfoSubmit = (e) => {
+    e.preventDefault();
     axios.put(API_URL + '/user/updateMachine', machine)
     .then((resposnse) => {
       if (resposnse.status === 200) {
@@ -60,7 +61,8 @@ const MachineUpdateModal = (props) => {
     });
   };
 
-  const onPartInfoSubmit = () => {
+  const onPartInfoSubmit = (e) => {
+    e.preventDefault();
     const url = API_URL + '/user/addMachinePart?machineId=' + machine.id;
     axios.post(url, part)
     .then((resposnse) => {
@@ -164,7 +166,7 @@ const MachineUpdateModal = (props) => {
           size="sm"
           type="button"
           variant="success"
-          onClick={() => onMachineInfoSubmit()}
+          onClick={(e) => onMachineInfoSubmit(e)}
           disabled={
             machine.name === props.data.name &&
             machine.location === props.data.location &&
@@ -282,7 +284,7 @@ const MachineUpdateModal = (props) => {
           size="sm"
           type="button"
           variant="success"
-          onClick={() => onPartInfoSubmit()}
+          onClick={(e) => onPartInfoSubmit(e)}
           disabled={
             part.name.length === 0
           }

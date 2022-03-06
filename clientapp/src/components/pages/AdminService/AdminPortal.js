@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import AuthenticationService from '../utils/AuthenticationService';
+import AuthenticationService from '../../utils/AuthenticationService';
 import { Button, Col, Container, Row } from 'react-bootstrap';
 import {
+  faTasks,
   faUserFriends,
   faUserPlus
 } from '@fortawesome/free-solid-svg-icons';
@@ -45,6 +46,18 @@ const AdminPortal = () => {
               </div>
               <span className='fw-bold px-4'>
                 Add new User
+              </span>
+            </Button>
+          </Link>
+        </Col>
+        <Col className="text-center mt-5">
+          <Link to={"appUsages"}>
+            <Button variant='outline-secondary'>
+              <div className='text-center pro_pic'>
+                <FontAwesomeIcon icon={faTasks} />
+              </div>
+              <span className='fw-bold px-4'>
+                Retrive App Usages
               </span>
             </Button>
           </Link>
