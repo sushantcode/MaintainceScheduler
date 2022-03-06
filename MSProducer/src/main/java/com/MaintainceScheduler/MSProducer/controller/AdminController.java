@@ -1,6 +1,8 @@
 package com.MaintainceScheduler.MSProducer.controller;
 
 import com.MaintainceScheduler.MSProducer.ApplicationStaticProperties;
+import com.MaintainceScheduler.MSProducer.model.ApiUsage;
+import com.MaintainceScheduler.MSProducer.service.ApiUsageService;
 import com.MaintainceScheduler.MSProducer.userAuthentication.CustomUser;
 import com.MaintainceScheduler.MSProducer.userAuthentication.User;
 import com.MaintainceScheduler.MSProducer.userAuthentication.UserRegistrationRequest;
@@ -8,10 +10,12 @@ import com.MaintainceScheduler.MSProducer.userAuthentication.UserService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -22,6 +26,9 @@ public class AdminController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private ApiUsageService apiUsageService;
 
     @GetMapping
     public String getAdmin() {
@@ -101,6 +108,20 @@ public class AdminController {
         try {
             userService.resetPassword(id, password);
             return new ResponseEntity<>("User password reset successful", HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/getAppActivities")
+    public ResponseEntity<?> getAppActivities(
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date from,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)  Date to
+    ) {
+        logger.info("Admin requested the app usages");
+        try {
+            List<ApiUsage> apiUsageList = apiUsageService.getApiUsageByDate(from, to);
+            return new ResponseEntity<>(apiUsageList, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }

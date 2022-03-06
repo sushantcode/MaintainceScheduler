@@ -22,7 +22,7 @@ import {
   faEnvelope,
   faUserLock
 } from "@fortawesome/free-solid-svg-icons";
-import AuthenticationService, { API_URL } from "../utils/AuthenticationService";
+import AuthenticationService, { API_URL } from "../../utils/AuthenticationService";
 import axios from 'axios';
 
 const AddNewUser = () => {

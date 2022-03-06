@@ -12,6 +12,7 @@ import java.util.List;
 public class MaintenanceResponse {
     private String Id;
     private Date date;
+    private String username;
     private String maintenanceDetail;
     private List<Part> partsReplaced = new ArrayList<>();
     private Long quantity;

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import AuthenticationService, { API_URL } from '../utils/AuthenticationService';
+import AuthenticationService, { API_URL } from '../../utils/AuthenticationService';
 import axios from 'axios';
 import { Alert, Button, Card, Col, Container, Form, FormControl, InputGroup, Modal, Row, Table } from 'react-bootstrap';
-import MessageToaster from '../utils/MessageToaster';
+import MessageToaster from '../../utils/MessageToaster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLock, faUndo, faUpload, faRefresh } from '@fortawesome/free-solid-svg-icons';
 
@@ -95,7 +95,8 @@ const ManageUsers = () => {
     })
   }
 
-  const onPasswordResetSubmit = () => {
+  const onPasswordResetSubmit = (e) => {
+    e.preventDefault();
     if (selectUserId === undefined) {
       return ( () => {
           setPassResetError("Select id is undefined!");
@@ -211,7 +212,7 @@ const ManageUsers = () => {
           size="sm"
           type="button"
           variant="success"
-          onClick={() => onPasswordResetSubmit()}
+          onClick={(e) => onPasswordResetSubmit(e)}
           disabled={newPassword.length === 0}
         >
           <FontAwesomeIcon icon={faUpload} /> Submit

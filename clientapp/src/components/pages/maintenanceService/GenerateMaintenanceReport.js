@@ -33,11 +33,16 @@ const GenerateMaintenanceReport = () => {
     }
   }, [showMachineList, navigate, machine]);
 
-  const onSubmit = () => {
+  const onSubmit = (e) => {
+    e.preventDefault();
+    const from = new Date(fromDate);
+    const to = new Date(toDate);
+    from.setDate(from.getDate() - 1);
+    to.setDate(to.getDate() + 1);
     const url = API_URL + 
                 '/user/generatePdf?machineId=' + machine.id + 
-                '&from=' + fromDate.toISOString() + 
-                '&to=' + toDate.toISOString();
+                '&from=' + from.toISOString() + 
+                '&to=' + to.toISOString();
     axios.get(url, {
       responseType: 'blob'
     })
@@ -84,7 +89,7 @@ const GenerateMaintenanceReport = () => {
         )}
           <Card>
             <Card.Header className="text-center fs-4">
-              Enter detail information for this service?
+              Select the range of dates?
             </Card.Header>
             <Card.Body>
               <Form className="mt-3">
@@ -143,9 +148,9 @@ const GenerateMaintenanceReport = () => {
                 size="sm"
                 type="button"
                 variant="success"
-                onClick={() => onSubmit()}
+                onClick={(e) => onSubmit(e)}
                 disabled={
-                  fromDate.getTime() >= toDate.getTime()
+                  fromDate.getTime() > toDate.getTime()
                 }
               >
                 <FontAwesomeIcon icon={faUpload} /> Submit

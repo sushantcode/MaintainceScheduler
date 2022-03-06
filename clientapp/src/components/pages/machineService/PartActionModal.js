@@ -64,7 +64,8 @@ const PartActionModal = (props) => {
     setPart({ ...part, [name]: value });
   };
 
-  const onSubmit = () => {
+  const onSubmit = (e) => {
+    e.preventDefault();
     const url = API_URL + '/user/updatePart';
     axios.put(url, part)
     .then((resposnse) => {
@@ -214,7 +215,7 @@ const PartActionModal = (props) => {
           size="sm"
           type="button"
           variant="success"
-          onClick={() => onSubmit()}
+          onClick={(e) => onSubmit(e)}
           disabled={
             part.name.length === 0
           }

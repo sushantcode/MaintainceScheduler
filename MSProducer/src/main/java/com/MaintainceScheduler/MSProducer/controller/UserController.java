@@ -249,11 +249,11 @@ public class UserController {
         String headerKey = "Content-Disposition";
         String headerValue = "attachment; filename=maintenance_" + currentDateTime + ".pdf";
         response.setHeader(headerKey, headerValue);
-
+        MachineResponse machine = machineService.getMachineById(machineId);
         List<MaintenanceResponse> maintenanceResponseList = maintenanceService
                                                                 .getMaintenanceRecordByDate(machineId, from, to);
 
-        MaintenancePDFExporter exporter = new MaintenancePDFExporter(maintenanceResponseList);
+        MaintenancePDFExporter exporter = new MaintenancePDFExporter(maintenanceResponseList, machine);
         exporter.export(response, from, to);
 
     }

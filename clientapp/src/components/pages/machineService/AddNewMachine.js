@@ -47,7 +47,8 @@ const AddNewMachine = () => {
     setMachine({ ...machine, [name]: value });
   };
 
-  const onSubmit = () => {
+  const onSubmit = (e) => {
+    e.preventDefault();
     axios.post(API_URL + '/user/addNewMachine', machine)
     .then((resposnse) => {
       console.log(resposnse.data);
@@ -148,7 +149,7 @@ const AddNewMachine = () => {
               size="sm"
               type="button"
               variant="success"
-              onClick={() => onSubmit()}
+              onClick={(e) => onSubmit(e)}
               disabled={
                 machine.name.length === 0
               }
