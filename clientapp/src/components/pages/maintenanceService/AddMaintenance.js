@@ -5,21 +5,19 @@ import {
   faUndo, 
   faUpload, 
   faWrench,
-  faTriangleExclamation,
-  faTrashCan,
-  faEdit,
-  faFloppyDisk
+  faTriangleExclamation
 } 
 from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { Alert, Button, Card, Col, Container, Dropdown, Form, FormControl, InputGroup, Row, Table } from 'react-bootstrap';
+import { Alert, Button, Card, Col, Container, Dropdown, Form, FormControl, InputGroup, Row } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import AuthenticationService, { API_URL } from '../../utils/AuthenticationService';
 import './Maintenance.css';
 import SelectMachineModal from './SelectMachineModal';
 import AddNewPartModal from '../partService/AddNewPartModal';
+import AvailablePartsTable from './AvailablePartsTable';
 
 const AddMaintenance = () => {
   let navigate = useNavigate();
@@ -41,6 +39,7 @@ const AddMaintenance = () => {
   const [maintenance, setMaintenance] = useState(initialMantenance);
   const [error, setError] = useState();
   const [show, setShow] = useState(true);
+  const [submitClicked, setSubmitClicked] = useState(false);
   const [success, setSuccess] = useState(false);
   const [selectedPartDisplay, setSelectedPartDisplay] = useState([]);
   const [partList, setPartList] = useState();
@@ -77,7 +76,9 @@ const AddMaintenance = () => {
         <Dropdown.Item 
           key={part.id}
           onClick={() => {
-            setSelectedPartDisplay([ ...selectedPartDisplay, part]);
+            const thisPart = { ...part };
+            delete thisPart.id;
+            setSelectedPartDisplay([ ...selectedPartDisplay, thisPart]);
           }}
         >
           {part.name}
@@ -100,116 +101,22 @@ const AddMaintenance = () => {
     setSelectedPartDisplay(tempSelectedPart);
   }
 
-  const selectedParts = ( 
-    <Table striped bordered>
-      <thead>
-        <tr className='border-bottom'>
-          <th>Name</th>
-          <th>Quantity</th>
-          <th>Specification</th>
-          <th></th>
-        </tr>
-      </thead>
-      { selectedPartDisplay &&
-        <tbody>
-          {
-            selectedPartDisplay.map((data, index) => {
-              return (
-                <tr key={index}>
-                  <td>{data.name}</td>
-                  <td>
-                    {
-                      editPartIndex === index ?
-                      (
-                        <Row>
-                          <Col>
-                            <Form.Group as={Col}>
-                              <InputGroup>
-                                <FormControl
-                                  required
-                                  autoComplete="off"
-                                  type="number"
-                                  name="quantity"
-                                  onChange={(e) => updateParts(e, index)}
-                                  placeholder={data.quantity}
-                                />
-                              </InputGroup>
-                            </Form.Group>
-                          </Col>
-                          <Col>
-                            <Button
-                              variant='primary' 
-                              className='me-3'
-                              onClick={() => {
-                                setEditPartIndex();
-                              }}
-                            >
-                              <FontAwesomeIcon icon={faFloppyDisk} />
-                            </Button>
-                          </Col>
-                        </Row>
-                      )
-                      :
-                      (
-                        <Row>
-                          <Col className='text-start'>
-                            {data.quantity} 
-                          </Col>
-                          <Col>
-                            <Button
-                              variant='primary' 
-                              className='me-3 text-end'
-                              onClick={() => {
-                                setEditPartIndex(index);
-                              }}
-                            >
-                              <FontAwesomeIcon icon={faEdit} />
-                            </Button>
-                          </Col>
-                        </Row>
-                      )
-                    }
-                  </td>
-                  <td>{data.specification}</td>
-                  <td>
-                    {
-                      (editPartIndex !== index) &&
-                      <Button
-                        variant='danger'
-                        onClick={() => {
-                          setSelectedPartDisplay(
-                            selectedPartDisplay.filter((element, ind) => ind !== index)
-                          )
-                        }}
-                      >
-                        <FontAwesomeIcon icon={faTrashCan} />
-                      </Button>
-                    }
-                  </td>
-                </tr>
-              )
-            })
-          }
-        </tbody>
-      }
-    </Table>
-  );
-
   const onSubmit = (e) => {
+    setShow(true);
+    setSubmitClicked(true);
     e.preventDefault();
     const url = API_URL + '/user/recordNewMaintenance?machineId=' + machine.id;
     axios.post(url, maintenance)
-    .then((resposnse) => {
-      console.log(resposnse.data);
+    .then(() => {
       setError(null);
       setSuccess(true);
-      setShow(false);
+      setSubmitClicked(false);
       resetForm();
     })
     .catch((err) => {
       setError(err.message);
       setSuccess(false);
-      setShow(true);
+      setSubmitClicked(false);
       resetForm();
     });
   }
@@ -223,6 +130,11 @@ const AddMaintenance = () => {
     <Container fluid className='mb-5'>
       <Row className="justify-content-md-center mt-4">
         <Col lg={10}>
+          {show && !success && !error && submitClicked && (
+            <Alert variant="info" onClose={() => setShow(false)} dismissible>
+              Processing request...
+            </Alert>
+          )}
           {show && success && (
             <Alert variant="success" onClose={() => setShow(false)} dismissible>
               New maintenance record added successfully!!!
@@ -254,6 +166,12 @@ const AddMaintenance = () => {
                       placeholder="Enter details"
                     />
                   </InputGroup>
+                  {
+                    (maintenance.maintenanceDetail.length === 0) &&
+                    <Form.Text className='text-danger' muted>
+                      <span className='text-danger'>Must provide the detail</span>
+                    </Form.Text>
+                  }
                 </Form.Group>
                 <Form.Group as={Col} className="mb-3">
                   <InputGroup>
@@ -270,6 +188,12 @@ const AddMaintenance = () => {
                       placeholder="Enter the quantity"
                     />
                   </InputGroup>
+                  {
+                    (maintenance.quantity.length === 0 || parseInt(maintenance.quantity) < 1) &&
+                    <Form.Text className='text-danger' muted>
+                      <span className='text-danger'>Quantity must be 1 or greater</span>
+                    </Form.Text>
+                  }
                 </Form.Group>
                 <Form.Group as={Col} className="mb-3">
                   <InputGroup>
@@ -311,7 +235,13 @@ const AddMaintenance = () => {
                 <Form.Group as={Col} className="mb-3">
                   <InputGroup>
                     <div className='selected_parts'>
-                      {selectedParts}
+                      <AvailablePartsTable
+                        selectedPartDisplay={selectedPartDisplay}
+                        setSelectedPartDisplay={setSelectedPartDisplay}
+                        editPartIndex={editPartIndex}
+                        updateParts={updateParts}
+                        setEditPartIndex={setEditPartIndex}
+                      />
                     </div>
                   </InputGroup>
                 </Form.Group>
@@ -330,7 +260,9 @@ const AddMaintenance = () => {
                 variant="success"
                 onClick={(e) => onSubmit(e)}
                 disabled={
-                  maintenance.maintenanceDetail.length === 0
+                  maintenance.maintenanceDetail.length === 0 ||
+                  maintenance.quantity.length === 0 ||
+                  parseInt(maintenance.quantity) < 1
                 }
               >
                 <FontAwesomeIcon icon={faUpload} /> Submit
@@ -342,7 +274,8 @@ const AddMaintenance = () => {
                 onClick={() => resetForm()}
                 disabled={
                   maintenance.maintenanceDetail.length === 0 &&
-                  maintenance.remarks.length === 0
+                  maintenance.remarks.length === 0 &&
+                  selectedPartDisplay !== []
                 }
               >
                 <FontAwesomeIcon icon={faUndo} /> Reset

@@ -13,12 +13,7 @@ import axios from 'axios';
 import { API_URL } from '../../utils/AuthenticationService';
 
 const MachineUpdateModal = (props) => {
-  const initialMachine = {
-    id: props.data.id,
-    name: props.data.name,
-    location: props.data.location,
-    specification: props.data.specification
-  };
+  const initialMachine = { ...props.data };
 
   const initialPart = {
     name: '',
@@ -121,6 +116,12 @@ const MachineUpdateModal = (props) => {
                         placeholder={props.data.name}
                       />
                     </InputGroup>
+                    {
+                      (machine.name.length === 0) &&
+                      <Form.Text className='text-danger' muted>
+                        <span className='text-danger'>Must provide the name</span>
+                      </Form.Text>
+                    }
                   </Form.Group>
                   <Form.Group as={Col} className="mb-2">
                     <InputGroup>
@@ -168,9 +169,8 @@ const MachineUpdateModal = (props) => {
           variant="success"
           onClick={(e) => onMachineInfoSubmit(e)}
           disabled={
-            machine.name === props.data.name &&
-            machine.location === props.data.location &&
-            machine.specification === props.data.specification
+            !machine ||
+            machine.name.length === 0
           }
         >
           <FontAwesomeIcon icon={faUpload} /> Submit
@@ -181,9 +181,7 @@ const MachineUpdateModal = (props) => {
           variant="info"
           onClick={() => setMachine(initialMachine)}
           disabled={
-            machine.name === props.data.name &&
-            machine.location === props.data.location &&
-            machine.specification === props.data.specification
+            !machine
           }
         >
           <FontAwesomeIcon icon={faUndo} /> Reset
@@ -234,6 +232,12 @@ const MachineUpdateModal = (props) => {
                         placeholder="Enter a name"
                       />
                     </InputGroup>
+                    {
+                      (part.name.length === 0) &&
+                      <Form.Text className='text-danger' muted>
+                        <span className='text-danger'>Must provide the name</span>
+                      </Form.Text>
+                    }
                   </Form.Group>
                   <Form.Group as={Col} className="mb-2">
                     <InputGroup>
@@ -250,6 +254,12 @@ const MachineUpdateModal = (props) => {
                         placeholder={1}
                       />
                     </InputGroup>
+                    {
+                      (part.quantity.length === 0 || parseInt(part.quantity) < 1) &&
+                      <Form.Text className='text-danger' muted>
+                        <span className='text-danger'>Quantity must be 1 or greater</span>
+                      </Form.Text>
+                    }
                   </Form.Group>
                   <Form.Group as={Col} className="mb-2">
                     <InputGroup>
@@ -286,7 +296,9 @@ const MachineUpdateModal = (props) => {
           variant="success"
           onClick={(e) => onPartInfoSubmit(e)}
           disabled={
-            part.name.length === 0
+            part.name.length === 0 ||
+            part.quantity.length === 0 ||
+            parseInt(part.quantity) < 1
           }
         >
           <FontAwesomeIcon icon={faUpload} /> Submit

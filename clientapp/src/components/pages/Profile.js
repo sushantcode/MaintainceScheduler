@@ -86,7 +86,7 @@ const Profile = () => {
         </Col>
       </Row>
       <Row className='mt-3'>
-        <Link className="nav-link text-dark text-center" aria-current="page" to="/changePassword">
+        <Link className="nav-link text-dark text-center" aria-current="page" to={"changePassword"}>
           <Button variant='secondary fs-5 fw-bold'>
             Change Password
           </Button>

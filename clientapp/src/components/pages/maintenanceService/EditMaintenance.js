@@ -1,4 +1,4 @@
-import { faCalendar, faCircleInfo, faEdit, faFileClipboard, faFloppyDisk, faHashtag, faTrashCan, faTriangleExclamation, faUndo, faUpload, faWrench } from '@fortawesome/free-solid-svg-icons';
+import { faCalendar, faCircleInfo, faFileClipboard, faHashtag, faTriangleExclamation, faUndo, faUpload, faWrench } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
@@ -6,6 +6,7 @@ import { Alert, Button, Card, Col, Container, Dropdown, Form, FormControl, Input
 import { useNavigate } from 'react-router-dom';
 import AuthenticationService, { API_URL } from '../../utils/AuthenticationService';
 import AddNewPartModal from '../partService/AddNewPartModal';
+import AvailablePartsTable from './AvailablePartsTable';
 import SelectMachineModal from './SelectMachineModal';
 
 const EditMaintenance = () => {
@@ -102,104 +103,8 @@ const EditMaintenance = () => {
     setSelectedPartDisplay(tempSelectedPart);
   }
 
-  const selectedParts = ( 
-    <Table striped bordered>
-      <thead>
-        <tr className='border-bottom'>
-          <th>Name</th>
-          <th>Quantity</th>
-          <th>Specification</th>
-          <th></th>
-        </tr>
-      </thead>
-      { selectedPartDisplay &&
-        <tbody>
-          {
-            selectedPartDisplay.map((data, index) => {
-              return (
-                <tr key={index}>
-                  <td>{data.name}</td>
-                  <td>
-                    {
-                      editPartIndex === index ?
-                      (
-                        <Row>
-                          <Col>
-                            <Form.Group as={Col}>
-                              <InputGroup>
-                                <FormControl
-                                  required
-                                  autoComplete="off"
-                                  type="number"
-                                  name="quantity"
-                                  onChange={(e) => updateParts(e, index)}
-                                  placeholder={data.quantity}
-                                />
-                              </InputGroup>
-                            </Form.Group>
-                          </Col>
-                          <Col>
-                            <Button
-                              variant='primary' 
-                              className='me-3'
-                              onClick={() => {
-                                setEditPartIndex();
-                              }}
-                            >
-                              <FontAwesomeIcon icon={faFloppyDisk} />
-                            </Button>
-                          </Col>
-                        </Row>
-                      )
-                      :
-                      (
-                        <Row>
-                          <Col className='text-start'>
-                            {data.quantity} 
-                          </Col>
-                          <Col>
-                            <Button
-                              variant='primary' 
-                              className='me-3 text-end'
-                              onClick={() => {
-                                setEditPartIndex(index);
-                              }}
-                            >
-                              <FontAwesomeIcon icon={faEdit} />
-                            </Button>
-                          </Col>
-                        </Row>
-                      )
-                    }
-                  </td>
-                  <td>{data.specification}</td>
-                  <td>
-                    {
-                      (editPartIndex !== index) &&
-                      <Button
-                        variant='danger'
-                        onClick={() => {
-                          setSelectedPartDisplay(
-                            selectedPartDisplay.filter((element, ind) => ind !== index)
-                          )
-                        }}
-                      >
-                        <FontAwesomeIcon icon={faTrashCan} />
-                      </Button>
-                    }
-                  </td>
-                </tr>
-              )
-            })
-          }
-        </tbody>
-      }
-    </Table>
-  );
-
   const onSubmit = (e) => {
     e.preventDefault();
-    console.log(maintenance);
     const url = API_URL + '/user/updateMaintenance';
     axios.put(url, maintenance)
     .then((response) => {
@@ -359,6 +264,12 @@ const EditMaintenance = () => {
                           placeholder="Enter details"
                         />
                       </InputGroup>
+                      {
+                        (maintenance.maintenanceDetail.length === 0) &&
+                        <Form.Text className='text-danger' muted>
+                          <span className='text-danger'>Must provide the detail</span>
+                        </Form.Text>
+                      }
                     </Form.Group>
                     <Form.Group as={Col} className="mb-3">
                       <InputGroup>
@@ -375,6 +286,12 @@ const EditMaintenance = () => {
                           placeholder="Enter the quantity"
                         />
                       </InputGroup>
+                      {
+                        (maintenance.quantity.length === 0 || parseInt(maintenance.quantity) < 1) &&
+                        <Form.Text className='text-danger' muted>
+                          <span className='text-danger'>Quantity must be 1 or greater</span>
+                        </Form.Text>
+                      }
                     </Form.Group>
                     <Form.Group as={Col} className="mb-3">
                       <InputGroup>
@@ -416,7 +333,13 @@ const EditMaintenance = () => {
                     <Form.Group as={Col} className="mb-3">
                       <InputGroup>
                         <div className='selected_parts'>
-                          {selectedParts}
+                          <AvailablePartsTable
+                            selectedPartDisplay={selectedPartDisplay}
+                            setSelectedPartDisplay={setSelectedPartDisplay}
+                            editPartIndex={editPartIndex}
+                            updateParts={updateParts}
+                            setEditPartIndex={setEditPartIndex}
+                          />
                         </div>
                       </InputGroup>
                     </Form.Group>
@@ -437,7 +360,10 @@ const EditMaintenance = () => {
                 variant="success"
                 onClick={(e) => onSubmit(e)}
                 disabled={
-                  !initialMantenance
+                  !initialMantenance ||
+                  maintenance.maintenanceDetail.length === 0 ||
+                  maintenance.quantity.length === 0 ||
+                  parseInt(maintenance.quantity) < 1
                 }
               >
                 <FontAwesomeIcon icon={faUpload} /> Submit

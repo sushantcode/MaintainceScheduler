@@ -25,6 +25,12 @@ const AppUsages = () => {
   const [toDate, setToDate] = useState('');
   const [data, setData] = useState();
 
+  useEffect(() => {
+    if (!show && (fromDate.length === 0 || toDate.length === 0)) {
+      navigate('/admin');
+    }
+  }, [fromDate, toDate, navigate, show])
+
   const resetForm = () => {
     setFromDate('');
     setToDate('');
@@ -77,7 +83,7 @@ const AppUsages = () => {
         setShow(false);
       }}
     >
-      <Modal.Header>
+      <Modal.Header closeButton>
         Select the range of dates?
       </Modal.Header>
       <Modal.Body>
