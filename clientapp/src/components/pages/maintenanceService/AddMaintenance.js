@@ -69,7 +69,7 @@ const AddMaintenance = () => {
   useEffect(() => {
     setMaintenance({ ...maintenance, partsReplaced: selectedPartDisplay });
   // eslint-disable-next-line
-}, [selectedPartDisplay]);
+  }, [selectedPartDisplay]);
 
   const availablePartsList = (
     partList ? partList.map((part) => {
@@ -223,7 +223,7 @@ const AddMaintenance = () => {
     <Container fluid className='mb-5'>
       <Row className="justify-content-md-center mt-4">
         <Col lg={10}>
-          {success && (
+          {show && success && (
             <Alert variant="success" onClose={() => setShow(false)} dismissible>
               New maintenance record added successfully!!!
             </Alert>

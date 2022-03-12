@@ -16,6 +16,7 @@ import AddNewMachine from './components/pages/machineService/AddNewMachine';
 import AddMaintenance from './components/pages/maintenanceService/AddMaintenance';
 import GenerateMaintenanceReport from './components/pages/maintenanceService/GenerateMaintenanceReport';
 import AppUsages from './components/pages/AdminService/AppUsages';
+import EditMaintenance from './components/pages/maintenanceService/EditMaintenance';
 
 function App() {
   return (
@@ -38,6 +39,7 @@ function App() {
             <Route path='/dashboard/addNewMachine' element={<AddNewMachine />} />
             <Route path='/dashboard/recordNewMaintenance' element={<AddMaintenance />} />
             <Route path='/dashboard/generateMaintenanceReport' element={<GenerateMaintenanceReport />} />
+            <Route path='/dashboard/editMaintenance' element={<EditMaintenance />} />
           </Routes>
           </Col>
         </Row>

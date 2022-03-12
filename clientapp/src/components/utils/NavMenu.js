@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Navbar, Nav, Container } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -11,6 +11,7 @@ import '../../css/NavMenu.css';
 const NavMenu = () => {
   // eslint-disable-next-line
   let navigate = useNavigate();
+  let location = useLocation();
 
   const [username, setUsername] = useState("");
   const [role, setRole] = useState("");
@@ -27,19 +28,24 @@ const NavMenu = () => {
 
   const authorizedLinks = (
     <>
-      <Link className='nav-link' to={"dashboard"}>
+      <Link 
+        className={`nav-link ${location.pathname === '/dashboard' ? 'active' : ''}`} 
+        to="/dashboard">
         Dashboard
       </Link>
       {
         (role === "ADMIN") &&
-        <Link className='nav-link' to="/admin">
+        <Link 
+        className={`nav-link ${location.pathname === '/admin' ? 'active' : ''}`}
+          to="/admin">
           Admin Portal
         </Link>
-      }
-      <Navbar.Text className='nav-link'>
-        Signed In As: {' '} 
-        <Link to="/profile"> {username} </Link>
-      </Navbar.Text>
+      } 
+      <Link 
+        className={`nav-link ${location.pathname === '/profile' ? 'active' : ''}`} 
+        to="/profile"> 
+        Signed In As: {' '}  {username} 
+      </Link>
     </>
   );
 
@@ -59,7 +65,7 @@ const NavMenu = () => {
       onSelect={() => setExpanded(expanded)}
       onToggle={() => setExpanded(!expanded)} 
     >
-      <Container fluid>
+      <Container>
         <Navbar.Brand className='me-auto'>
           <Link className="navbar-brand" to={"/"}>
             <img src="/logo.png" alt="logo" style={{maxHeight: 75}}/>

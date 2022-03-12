@@ -17,15 +17,13 @@ const GenerateMaintenanceReport = () => {
     }
   }, [navigate]);
 
-  const currDate = new Date();
-
   const [showMachineList, setShowMachineList] = useState(true);
   const [machine, setMachine] = useState();
   const [error, setError] = useState();
   const [show, setShow] = useState(false);
   const [success, setSuccess] = useState(false);
-  const [fromDate, setFromDate] = useState(currDate);
-  const [toDate, setToDate] = useState(currDate);
+  const [fromDate, setFromDate] = useState('');
+  const [toDate, setToDate] = useState('');
 
   useEffect(() => {
     if (!showMachineList && !machine) {
@@ -35,26 +33,18 @@ const GenerateMaintenanceReport = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    const from = new Date(fromDate);
-    const to = new Date(toDate);
-    from.setDate(from.getDate() - 1);
-    to.setDate(to.getDate() + 1);
+    const from = fromDate + 'T06:00:00.000Z';
+    const to = toDate + 'T06:00:00.000Z';
     const url = API_URL + 
                 '/user/generatePdf?machineId=' + machine.id + 
-                '&from=' + from.toISOString() + 
-                '&to=' + to.toISOString();
+                '&from=' + from + 
+                '&to=' + to;
     axios.get(url, {
       responseType: 'blob'
     })
     .then((resposnse) => {
       const content = resposnse.headers["content-type"];
-      const fileName = "maintenance_" + 
-                      fromDate.getUTCFullYear().toString() + "-" +
-                      (fromDate.getUTCMonth() + 1).toString() + "-" +
-                      fromDate.getUTCDate().toString() + "_" +
-                      toDate.getUTCFullYear().toString() + "-" +
-                      (toDate.getUTCMonth() + 1).toString() + "-" +
-                      toDate.getUTCDate().toString();
+      const fileName = "maintenance_" + fromDate + "_" + toDate;
       setError(null);
       setSuccess(true);
       setShow(true);
@@ -70,8 +60,8 @@ const GenerateMaintenanceReport = () => {
   }
 
   const resetForm = () => {
-    setFromDate(currDate);
-    setToDate(currDate);
+    setFromDate('');
+    setToDate('');
   };
 
   return (
@@ -116,13 +106,19 @@ const GenerateMaintenanceReport = () => {
                     <FormControl
                       required
                       autoComplete="off"
+                      aria-describedby='fromDateHelp'
                       type="date"
                       name="from"
-                      value={fromDate.toISOString().substring(0, 10)}
-                      onChange={(e) => setFromDate(new Date(e.target.value))}
-                      placeholder={"sd"}
+                      value={fromDate}
+                      onChange={(e) => setFromDate(e.target.value)}
                     />
                   </InputGroup>
+                  {
+                    (fromDate === '') &&
+                    <Form.Text id='fromDateHelp' muted>
+                      <span className='text-danger'>Must select a date</span>
+                    </Form.Text>
+                  }
                 </Form.Group>
                 <Form.Group as={Col} className="mb-3">
                   <InputGroup>
@@ -132,13 +128,26 @@ const GenerateMaintenanceReport = () => {
                     <FormControl
                       required
                       autoComplete="off"
+                      aria-describedby='toDateHelp'
                       type="date"
                       name="to"
-                      value={toDate.toISOString().substring(0, 10)}
-                      onChange={(e) => setToDate(new Date(e.target.value))}
-                      placeholder={"toDate.substring(0, 10)"}
+                      value={toDate}
+                      onChange={(e) => setToDate(e.target.value)}
                     />
                   </InputGroup>
+                  {
+                    (toDate === '') &&
+                    <Form.Text className='text-danger' id='toDateHelp' muted>
+                      <span className='text-danger'>Must select a date</span>
+                    </Form.Text>
+                  }
+                  {
+                    (toDate !== '' && 
+                    (new Date(fromDate).getTime() >= new Date(toDate).getTime())) &&
+                    <Form.Text className='text-danger' id='toDateHelp' muted>
+                      <span className='text-danger'> From-date must be the date before to-date </span>
+                    </Form.Text>
+                  }
                 </Form.Group>
               </Form>
             </Card.Body>
@@ -150,7 +159,8 @@ const GenerateMaintenanceReport = () => {
                 variant="success"
                 onClick={(e) => onSubmit(e)}
                 disabled={
-                  fromDate.getTime() > toDate.getTime()
+                  !fromDate || !toDate ||
+                  (new Date(fromDate).getTime() >= new Date(toDate).getTime())
                 }
               >
                 <FontAwesomeIcon icon={faUpload} /> Submit
@@ -161,8 +171,7 @@ const GenerateMaintenanceReport = () => {
                 variant="info"
                 onClick={() => resetForm()}
                 disabled={
-                  fromDate.getTime() === currDate.getTime() &&
-                  toDate.getTime() === currDate.getTime()
+                  !fromDate && !toDate
                 }
               >
                 <FontAwesomeIcon icon={faUndo} /> Reset
