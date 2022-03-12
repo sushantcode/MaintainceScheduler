@@ -103,6 +103,12 @@ const AddNewMachine = () => {
                     placeholder="Enter a name"
                   />
                 </InputGroup>
+                {
+                  (machine.name.length === 0) &&
+                  <Form.Text className='text-danger' muted>
+                    <span className='text-danger'>Must provide the name</span>
+                  </Form.Text>
+                }
               </Form.Group>
               <Form.Group as={Col} className="mb-3">
                 <InputGroup>

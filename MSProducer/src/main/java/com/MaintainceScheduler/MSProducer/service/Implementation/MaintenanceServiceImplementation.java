@@ -40,17 +40,29 @@ public class MaintenanceServiceImplementation implements MaintenanceService {
     private Maintenance toMaintenance(MaintenanceResponse maintenanceResponse) {
         Map<String, Part> partMap = new HashMap<>();
         List<Part> partList = maintenanceResponse.getPartsReplaced();
-        for (Part p : partList) {
-            partMap.put(p.getId(), p);
+        if (!partList.isEmpty()) {
+            for (Part p : partList) {
+                partMap.put(p.getId(), p);
+            }
+            Maintenance maintenance = new Maintenance(
+                    maintenanceResponse.getUsername(),
+                    maintenanceResponse.getMaintenanceDetail(),
+                    partMap,
+                    maintenanceResponse.getQuantity(),
+                    maintenanceResponse.getRemarks()
+            );
+            return maintenance;
         }
-        Maintenance maintenance = new Maintenance(
-                maintenanceResponse.getUsername(),
-                maintenanceResponse.getMaintenanceDetail(),
-                partMap,
-                maintenanceResponse.getQuantity(),
-                maintenanceResponse.getRemarks()
-        );
-        return maintenance;
+        else {
+            Maintenance maintenance = new Maintenance(
+                    maintenanceResponse.getUsername(),
+                    maintenanceResponse.getMaintenanceDetail(),
+                    null,
+                    maintenanceResponse.getQuantity(),
+                    maintenanceResponse.getRemarks()
+            );
+            return maintenance;
+        }
     }
 
     @Override

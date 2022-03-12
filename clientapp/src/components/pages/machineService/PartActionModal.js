@@ -127,7 +127,6 @@ const PartActionModal = (props) => {
     <Modal
       show={props.partActionShow}
       size="lg"
-      aria-labelledby="contained-modal-title-vcenter"
       centered
       backdrop="static"
       keyboard={false}
@@ -165,6 +164,12 @@ const PartActionModal = (props) => {
                         placeholder="Enter a name"
                       />
                     </InputGroup>
+                    {
+                      (part.name.length === 0) &&
+                      <Form.Text className='text-danger' muted>
+                        <span className='text-danger'>Must provide the name</span>
+                      </Form.Text>
+                    }
                   </Form.Group>
                   <Form.Group as={Col} className="mb-2">
                     <InputGroup>
@@ -178,9 +183,15 @@ const PartActionModal = (props) => {
                         name="quantity"
                         value={part.quantity}
                         onChange={inputChange}
-                        placeholder={1}
+                        placeholder={part.quantity}
                       />
                     </InputGroup>
+                    {
+                      (part.quantity.length === 0 || parseInt(part.quantity) < 1) &&
+                      <Form.Text className='text-danger' muted>
+                        <span className='text-danger'>Quantity must be 1 or greater</span>
+                      </Form.Text>
+                    }
                   </Form.Group>
                   <Form.Group as={Col} className="mb-2">
                     <InputGroup>
@@ -217,7 +228,9 @@ const PartActionModal = (props) => {
           variant="success"
           onClick={(e) => onSubmit(e)}
           disabled={
-            part.name.length === 0
+            part.name.length === 0 ||
+            part.quantity.length === 0 ||
+            parseInt(part.quantity) < 1
           }
         >
           <FontAwesomeIcon icon={faUpload} /> Submit

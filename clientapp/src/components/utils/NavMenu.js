@@ -29,20 +29,20 @@ const NavMenu = () => {
   const authorizedLinks = (
     <>
       <Link 
-        className={`nav-link ${location.pathname === '/dashboard' ? 'active' : ''}`} 
+        className={`nav-link ${(/\/dashboard\/?.*/i).test(location.pathname) ? 'active' : ''}`} 
         to="/dashboard">
         Dashboard
       </Link>
       {
         (role === "ADMIN") &&
         <Link 
-        className={`nav-link ${location.pathname === '/admin' ? 'active' : ''}`}
+        className={`nav-link ${(/\/admin\/?.*/i).test(location.pathname) ? 'active' : ''}`}
           to="/admin">
           Admin Portal
         </Link>
       } 
       <Link 
-        className={`nav-link ${location.pathname === '/profile' ? 'active' : ''}`} 
+        className={`nav-link ${(/\/profile\/?.*/i).test(location.pathname) ? 'active' : ''}`} 
         to="/profile"> 
         Signed In As: {' '}  {username} 
       </Link>

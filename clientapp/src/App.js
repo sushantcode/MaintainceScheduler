@@ -31,7 +31,7 @@ function App() {
             <Route path='/admin' element={<AdminHome />} />
             <Route path='/dashboard' element={<Dashboard />} />
             <Route path='/profile' element={<Profile />} />
-            <Route path='/changePassword' element={<ChangePassword />} />
+            <Route path='/profile/changePassword' element={<ChangePassword />} />
             <Route path='/admin/manageUsers' element={<ManageUsers />} />
             <Route path='/admin/addNewUser' element={<AddNewUser />} />
             <Route path='/admin/appUsages' element={<AppUsages />} />
