@@ -89,7 +89,9 @@ const SelectMachineModal = (props) => {
                         <ListGroup.Item
                           as='li'
                           key={machine.id}
+                          action
                           className='mt-2'
+                          style={{cursor: "pointer"}} 
                           onClick={() => {
                             props.setMachine(machine);
                             props.setShow(false);

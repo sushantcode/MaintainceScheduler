@@ -152,9 +152,9 @@ public class UserController {
     }
 
     @PutMapping("updateMaintenance")
-    public ResponseEntity<?> updateMaintenance(@RequestBody Maintenance maintenance) {
+    public ResponseEntity<?> updateMaintenance(@RequestBody MaintenanceResponse maintenanceResponse) {
         try {
-            maintenanceService.updateMaintenance(maintenance);
+            maintenanceService.updateMaintenance(maintenanceResponse);
             return new ResponseEntity<>("Maintenance detail updated successfully", HttpStatus.OK);
         }
         catch (RuntimeException e) {
@@ -201,10 +201,17 @@ public class UserController {
         }
     }
 
-    @GetMapping("/getMaintenanceRecord")
-    public ResponseEntity<?> getMaintenanceRecord(@RequestParam String machineId) {
+    @GetMapping("/getMaintenanceRecordByDate")
+    public ResponseEntity<?> getMaintenanceRecordByDate(
+            @RequestParam String machineId,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date date
+    ) {
         try {
-            List<MaintenanceResponse> maintenanceList = maintenanceService.getMaintenanceRecord(machineId);
+            Date nextDate = new Date(date.getTime() + (1000 * 60 * 60 * 24));
+            logger.info(date);
+            logger.info(nextDate);
+            List<MaintenanceResponse> maintenanceList = maintenanceService
+                                                        .getMaintenanceRecordByDate(machineId, date, nextDate);
             return new ResponseEntity<>(maintenanceList, HttpStatus.OK);
         }
         catch (RuntimeException e) {
@@ -241,7 +248,6 @@ public class UserController {
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date from,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)  Date to
     ) throws DocumentException, IOException {
-        logger.info(from);
         response.setContentType("application/pdf");
         DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
         String currentDateTime = dateFormatter.format(new Date());
@@ -252,7 +258,6 @@ public class UserController {
         MachineResponse machine = machineService.getMachineById(machineId);
         List<MaintenanceResponse> maintenanceResponseList = maintenanceService
                                                                 .getMaintenanceRecordByDate(machineId, from, to);
-
         MaintenancePDFExporter exporter = new MaintenancePDFExporter(maintenanceResponseList, machine);
         exporter.export(response, from, to);
 

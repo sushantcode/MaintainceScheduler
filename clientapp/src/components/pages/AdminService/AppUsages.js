@@ -13,42 +13,40 @@ const AppUsages = () => {
     if (!AuthenticationService.isUserLoggedIn()) {
       navigate('/login');
     }
+    else if (AuthenticationService.getLoggedInUserRole() === 'USER') {
+      navigate('/dashboard')
+    }
   }, [navigate]);
 
-  const currDate = new Date();
 
   const [error, setError] = useState();
   const [show, setShow] = useState(true);
-  const [success, setSuccess] = useState(false);
-  const [fromDate, setFromDate] = useState(currDate);
-  const [toDate, setToDate] = useState(currDate);
+  const [fromDate, setFromDate] = useState('');
+  const [toDate, setToDate] = useState('');
   const [data, setData] = useState();
 
   const resetForm = () => {
-    setFromDate(currDate);
-    setToDate(currDate);
+    setFromDate('');
+    setToDate('');
   };
 
   useEffect(() => {
-    if (!show && (fromDate.getTime() > toDate.getTime())) {
+    if (!show && (new Date(fromDate).getTime() >= new Date(toDate).getTime())) {
       navigate('/admin');
     }
-    else if (!show && (fromDate.getTime() <= toDate.getTime())) {
+    else if (!show && (new Date(fromDate).getTime() <= new Date(toDate).getTime())) {
       getAppUsages();
     }
   // eslint-disable-next-line
   }, [show, fromDate, toDate, navigate]);
 
   const getAppUsages = () => {
-    console.log(fromDate, toDate);
-    const from = new Date(fromDate);
-    const to = new Date(toDate);
-    from.setDate(from.getDate() - 1);
-    to.setDate(to.getDate() + 1);
+    const from = fromDate + 'T06:00:00.000Z';
+    const to = toDate + 'T06:00:00.000Z';
     const url = API_URL + 
                 '/admin/getAppActivities?' +
-                'from=' + from.toISOString() + 
-                '&to=' + to.toISOString();
+                'from=' + from + 
+                '&to=' + to;
     axios.get(url)
     .then((response) => {
       if (Array.isArray(response.data)) {
@@ -94,10 +92,16 @@ const AppUsages = () => {
                 autoComplete="off"
                 type="date"
                 name="from"
-                value={fromDate.toISOString().substring(0, 10)}
-                onChange={(e) => setFromDate(new Date(e.target.value))}
+                value={fromDate}
+                onChange={(e) => setFromDate(e.target.value)}
               />
             </InputGroup>
+            {
+              (fromDate === '') &&
+              <Form.Text id='fromDateHelp' muted>
+                <span className='text-danger'>Must select a date</span>
+              </Form.Text>
+            }
           </Form.Group>
           <Form.Group as={Col} className="mb-3">
             <InputGroup>
@@ -109,10 +113,23 @@ const AppUsages = () => {
                 autoComplete="off"
                 type="date"
                 name="to"
-                value={toDate.toISOString().substring(0, 10)}
-                onChange={(e) => setToDate(new Date(e.target.value))}
+                value={toDate}
+                onChange={(e) => setToDate(e.target.value)}
               />
             </InputGroup>
+            {
+              (toDate === '') &&
+              <Form.Text className='text-danger' id='toDateHelp' muted>
+                <span className='text-danger'>Must select a date</span>
+              </Form.Text>
+            }
+            {
+              (toDate !== '' && 
+              (new Date(fromDate).getTime() >= new Date(toDate).getTime())) &&
+              <Form.Text className='text-danger' id='toDateHelp' muted>
+                <span className='text-danger'> From-date must be the date before to-date </span>
+              </Form.Text>
+            }
           </Form.Group>
         </Form>
       </Modal.Body>
@@ -124,7 +141,8 @@ const AppUsages = () => {
         variant="success"
         onClick={() => setShow(false)}
         disabled={
-          fromDate.getTime() > toDate.getTime()
+          !fromDate || !toDate ||
+          (new Date(fromDate).getTime() >= new Date(toDate).getTime())
         }
       >
         <FontAwesomeIcon icon={faCheck} /> OK
@@ -134,6 +152,9 @@ const AppUsages = () => {
         type="button"
         variant="info"
         onClick={() => resetForm()}
+        disabled={
+          !fromDate && !toDate
+        }
       >
         <FontAwesomeIcon icon={faUndo} /> Reset
       </Button>
@@ -171,6 +192,10 @@ const AppUsages = () => {
               </tbody>
             }
           </Table>
+          {
+            error &&
+            <h4 className='text-danger text-center'>{error}</h4>
+          }
         </Col>
       </Row>
       {

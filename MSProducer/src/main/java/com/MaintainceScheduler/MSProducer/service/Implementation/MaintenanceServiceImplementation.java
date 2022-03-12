@@ -54,14 +54,14 @@ public class MaintenanceServiceImplementation implements MaintenanceService {
     }
 
     @Override
-    public void updateMaintenance(Maintenance updatedMaintenance) {
-        String maintenanceId = updatedMaintenance.getId();
+    public void updateMaintenance(MaintenanceResponse maintenanceResponse) {
+        String maintenanceId = maintenanceResponse.getId();
         if (maintenanceRepository.existsById(maintenanceId)) {
             Maintenance maintenance = maintenanceRepository.getById(maintenanceId);
-            Date date = updatedMaintenance.getDate();
-            String maintenanceDetail = updatedMaintenance.getMaintenanceDetail();
-            Long quantity = updatedMaintenance.getQuantity();
-            String remarks = updatedMaintenance.getRemarks();
+            Date date = maintenanceResponse.getDate();
+            String maintenanceDetail = maintenanceResponse.getMaintenanceDetail();
+            Long quantity = maintenanceResponse.getQuantity();
+            String remarks = maintenanceResponse.getRemarks();
             if (quantity != null) {
                 maintenance.setQuantity(quantity);
             }
@@ -74,6 +74,22 @@ public class MaintenanceServiceImplementation implements MaintenanceService {
             if (remarks != null) {
                 maintenance.setRemarks(remarks);
             }
+            Set<String> partIdList = maintenance.getPartsReplaced().keySet();
+            Map<String, Part> existingParts = maintenance.getPartsReplaced();
+            for (Part p : maintenanceResponse.getPartsReplaced()) {
+                if (!partIdList.contains(p.getId())) {
+                    existingParts.put(p.getId(), p);
+                }
+                else {
+                    Part existingPart = existingParts.get(p.getId());
+                    if (!existingPart.getName().equals(p.getName()) ||
+                        existingPart.getQuantity() != p.getQuantity() ||
+                        !existingPart.getSpecification().equals(p.getSpecification())) {
+                        partRepository.save(p);
+                    }
+                }
+            }
+            maintenance.setPartsReplaced(existingParts);
             maintenanceRepository.save(maintenance);
         }
         else {
@@ -139,7 +155,6 @@ public class MaintenanceServiceImplementation implements MaintenanceService {
         }
     }
 
-    @Override
     public List<MaintenanceResponse> getMaintenanceRecord(String machineId) {
         if (machineRepository.existsById(machineId)) {
             Machine machine = machineRepository.getById(machineId);

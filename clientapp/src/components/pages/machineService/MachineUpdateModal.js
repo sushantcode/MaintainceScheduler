@@ -44,14 +44,14 @@ const MachineUpdateModal = (props) => {
   const onMachineInfoSubmit = (e) => {
     e.preventDefault();
     axios.put(API_URL + '/user/updateMachine', machine)
-    .then((resposnse) => {
-      if (resposnse.status === 200) {
+    .then((response) => {
+      if (response.status === 200) {
         setError(null);
         props.setUpdated(true);
         props.setShow(false);
       }
       else {
-        setError(resposnse.message);
+        setError(response.message);
         setErrorShow(true);
       }
     })
