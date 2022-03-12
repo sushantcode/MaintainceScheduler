@@ -1,4 +1,3 @@
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import AuthenticationService, { API_URL } from '../../utils/AuthenticationService';
 import { Tab, Row, Col, Nav } from 'react-bootstrap';
@@ -24,7 +23,7 @@ const MachineList = () => {
   }, [updated]);
 
   function getMachines() {
-    axios.get(API_URL + '/user/listMachine')
+    AuthenticationService.Axios().get(API_URL + '/user/listMachine')
     .then((response) => {
       if (Array.isArray(response.data)) {
         setMachines(response.data);

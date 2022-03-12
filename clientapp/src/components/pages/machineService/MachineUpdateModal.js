@@ -9,8 +9,7 @@ import {
   faUndo,
   faHashtag
 } from '@fortawesome/free-solid-svg-icons';
-import axios from 'axios';
-import { API_URL } from '../../utils/AuthenticationService';
+import AuthenticationService, { API_URL } from '../../utils/AuthenticationService';
 
 const MachineUpdateModal = (props) => {
   const initialMachine = { ...props.data };
@@ -38,7 +37,7 @@ const MachineUpdateModal = (props) => {
 
   const onMachineInfoSubmit = (e) => {
     e.preventDefault();
-    axios.put(API_URL + '/user/updateMachine', machine)
+    AuthenticationService.Axios().put(API_URL + '/user/updateMachine', machine)
     .then((response) => {
       if (response.status === 200) {
         setError(null);
@@ -59,7 +58,7 @@ const MachineUpdateModal = (props) => {
   const onPartInfoSubmit = (e) => {
     e.preventDefault();
     const url = API_URL + '/user/addMachinePart?machineId=' + machine.id;
-    axios.post(url, part)
+    AuthenticationService.Axios().post(url, part)
     .then((resposnse) => {
       console.log(resposnse.data);
       setError(null);

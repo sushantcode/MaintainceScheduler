@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AuthenticationService, { API_URL } from '../../utils/AuthenticationService';
-import axios from 'axios';
 import { Alert, Button, Card, Col, Container, Form, FormControl, InputGroup, Modal, Row, Table } from 'react-bootstrap';
 import MessageToaster from '../../utils/MessageToaster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -48,7 +47,7 @@ const ManageUsers = () => {
   }, []);
 
   function getUserList() {
-    axios.get(API_URL + '/admin/listUsers')
+    AuthenticationService.Axios().get(API_URL + '/admin/listUsers')
     .then((response) => {
       if (Array.isArray(response.data)) {
         setUserList(response.data); 
@@ -84,7 +83,7 @@ const ManageUsers = () => {
                 selectUserId.toString() + 
                 '&isEnabled=' + 
                 selectUserStatus.toString();
-    axios.put(url)
+    AuthenticationService.Axios().put(url)
     .then(() => {
       setUpdateError();
       getUserList();
@@ -107,7 +106,7 @@ const ManageUsers = () => {
     const url = API_URL + 
                 '/admin/resetPassword?id=' + 
                 selectUserId.toString();
-    axios.put(url, newPassword, 
+    AuthenticationService.Axios().put(url, newPassword, 
       {
         headers: {"Content-Type": "text/plain"}
       })

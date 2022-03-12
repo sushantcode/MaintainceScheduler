@@ -1,6 +1,5 @@
 import { faCalendarMinus, faCalendarPlus, faUndo, faUpload, faWrench } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import axios from 'axios';
 import download from 'downloadjs';
 import React, { useEffect, useState } from 'react';
 import { Alert, Button, Card, Col, Form, FormControl, InputGroup, Row } from 'react-bootstrap';
@@ -39,7 +38,7 @@ const GenerateMaintenanceReport = () => {
                 '/user/generatePdf?machineId=' + machine.id + 
                 '&from=' + from + 
                 '&to=' + to;
-    axios.get(url, {
+    AuthenticationService.Axios().get(url, {
       responseType: 'blob'
     })
     .then((resposnse) => {

@@ -18,7 +18,6 @@ import {
   faUpload,
   faUndo
 } from '@fortawesome/free-solid-svg-icons';
-import axios from 'axios';
 import { API_URL } from '../../utils/AuthenticationService';
 import AuthenticationService from "../../utils/AuthenticationService";
 
@@ -49,7 +48,7 @@ const AddNewMachine = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    axios.post(API_URL + '/user/addNewMachine', machine)
+    AuthenticationService.Axios().post(API_URL + '/user/addNewMachine', machine)
     .then((resposnse) => {
       console.log(resposnse.data);
       setError(null);

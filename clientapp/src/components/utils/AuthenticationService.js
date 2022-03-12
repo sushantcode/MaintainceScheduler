@@ -27,6 +27,7 @@ class AuthenticationService {
       window.sessionStorage.setItem(SESSION_STORAGE_FIRSTNAME_KEY, user.fname);
       window.sessionStorage.setItem(SESSION_STORAGE_LASTNAME_KEY, user.lname);
       window.sessionStorage.setItem(SESSION_STORAGE_EMAIL_KEY, user.email);
+      window.sessionStorage.setItem(SESSION_STORAGE_TOKEN_KEY, token);
       this.setupAxiosInterceptors(token)
   }
 
@@ -71,6 +72,11 @@ class AuthenticationService {
               return config
           }
       )
+  }
+
+  Axios() {
+    this.setupAxiosInterceptors(window.sessionStorage.getItem(SESSION_STORAGE_TOKEN_KEY));
+    return axios;
   }
 }
 

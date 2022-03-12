@@ -1,9 +1,8 @@
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import axios from 'axios';
 import React, { useState } from 'react';
 import { Alert, Card, Col, Form, FormControl, InputGroup, ListGroup, Modal, Row } from 'react-bootstrap';
-import { API_URL } from '../../utils/AuthenticationService';
+import AuthenticationService, { API_URL } from '../../utils/AuthenticationService';
 
 const SelectMachineModal = (props) => {
   const [error, setError] = useState();
@@ -17,7 +16,7 @@ const SelectMachineModal = (props) => {
   }, []);
 
   function getMachines() {
-    axios.get(API_URL + '/user/listMachine')
+    AuthenticationService.Axios().get(API_URL + '/user/listMachine')
     .then((response) => {
       if (Array.isArray(response.data)) {
         setMachines(response.data); 
