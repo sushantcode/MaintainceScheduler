@@ -23,7 +23,6 @@ import {
   faUserLock
 } from "@fortawesome/free-solid-svg-icons";
 import AuthenticationService, { API_URL } from "../../utils/AuthenticationService";
-import axios from 'axios';
 
 const AddNewUser = () => {
   let navigate = useNavigate();
@@ -76,7 +75,7 @@ const AddNewUser = () => {
   }, [confirmAction])
 
   const registerNewUser = () => {
-    axios.post(API_URL + '/admin/registerNewUser', newUser)
+    AuthenticationService.Axios().post(API_URL + '/admin/registerNewUser', newUser)
     .then((resposnse) => {
       if (resposnse.status === 200) {
         setError(null);

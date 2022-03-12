@@ -1,6 +1,5 @@
 import { faCalendar, faCircleInfo, faFileClipboard, faHashtag, faTriangleExclamation, faUndo, faUpload, faWrench } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Alert, Button, Card, Col, Container, Dropdown, Form, FormControl, InputGroup, Row, Table } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
@@ -57,7 +56,7 @@ const EditMaintenance = () => {
     const url = API_URL + 
                 '/user/getMaintenanceRecordByDate?machineId=' + machine.id + 
                 '&date=' + mDate;
-    axios.get(url)
+    AuthenticationService.Axios().get(url)
     .then((resposnse) => {
       setError(null);
       setMaintenanceList(resposnse.data);
@@ -106,7 +105,7 @@ const EditMaintenance = () => {
   const onSubmit = (e) => {
     e.preventDefault();
     const url = API_URL + '/user/updateMaintenance';
-    axios.put(url, maintenance)
+    AuthenticationService.Axios().put(url, maintenance)
     .then((response) => {
       if (response.status === 200) {
         setError(null);

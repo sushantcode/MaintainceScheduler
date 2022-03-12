@@ -9,7 +9,6 @@ import {
 } 
 from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Alert, Button, Card, Col, Container, Dropdown, Form, FormControl, InputGroup, Row } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
@@ -106,7 +105,7 @@ const AddMaintenance = () => {
     setSubmitClicked(true);
     e.preventDefault();
     const url = API_URL + '/user/recordNewMaintenance?machineId=' + machine.id;
-    axios.post(url, maintenance)
+    AuthenticationService.Axios().post(url, maintenance)
     .then(() => {
       setError(null);
       setSuccess(true);

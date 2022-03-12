@@ -8,8 +8,7 @@ import {
   faUndo,
   faHashtag
 } from '@fortawesome/free-solid-svg-icons';
-import { API_URL } from '../../utils/AuthenticationService';
-import axios from 'axios';
+import AuthenticationService, { API_URL } from '../../utils/AuthenticationService';
 
 const PartActionModal = (props) => {
   const [confirmAction, setConfirmAction] = useState(false);
@@ -42,7 +41,7 @@ const PartActionModal = (props) => {
                 props.machineId + 
                 '&partId=' + 
                 part.id;
-    axios.delete(url)
+    AuthenticationService.Axios().delete(url)
     .then(() => {
       props.setToastMessage("Removed the part succeffully");
       props.setUpdated();
@@ -67,7 +66,7 @@ const PartActionModal = (props) => {
   const onSubmit = (e) => {
     e.preventDefault();
     const url = API_URL + '/user/updatePart';
-    axios.put(url, part)
+    AuthenticationService.Axios().put(url, part)
     .then((resposnse) => {
       console.log(resposnse.data);
       setError(null);

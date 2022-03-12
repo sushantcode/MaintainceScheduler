@@ -17,7 +17,6 @@ import {
   faUpload
 } from "@fortawesome/free-solid-svg-icons";
 import AuthenticationService, { API_URL } from "./AuthenticationService";
-import axios from 'axios';
 
 const ChangePassword = () => {
   let navigate = useNavigate();
@@ -59,7 +58,7 @@ const ChangePassword = () => {
   };
 
   const submitForm = () => {
-    axios.put(API_URL + '/changePassword', newUser)
+    AuthenticationService.Axios().put(API_URL + '/changePassword', newUser)
     .then((resposnse) => {
       if (resposnse.status === 200) {
         setError(null);

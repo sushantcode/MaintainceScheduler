@@ -1,6 +1,5 @@
 import { faCalendarMinus, faCalendarPlus, faCheck, faUndo } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Button, Col, Container, Form, FormControl, InputGroup, Modal, Row, Table } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
@@ -53,7 +52,7 @@ const AppUsages = () => {
                 '/admin/getAppActivities?' +
                 'from=' + from + 
                 '&to=' + to;
-    axios.get(url)
+    AuthenticationService.Axios().get(url)
     .then((response) => {
       if (Array.isArray(response.data)) {
         setData(response.data); 
