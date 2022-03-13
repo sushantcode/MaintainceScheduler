@@ -5,7 +5,8 @@ import {
   faUndo, 
   faUpload, 
   faWrench,
-  faTriangleExclamation
+  faTriangleExclamation,
+  faScrewdriverWrench
 } 
 from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -150,6 +151,22 @@ const AddMaintenance = () => {
             </Card.Header>
             <Card.Body>
               <Form className="mt-3">
+                <Form.Group as={Col} className="mb-3">
+                  <InputGroup>
+                    <InputGroup.Text>
+                      <FontAwesomeIcon icon={faScrewdriverWrench} className='me-2' /> Maintenance to Machine
+                    </InputGroup.Text>
+                    <FormControl
+                      required
+                      autoComplete="off"
+                      type="text"
+                      name="from"
+                      value={machine ? machine.name : ''}
+                      readOnly
+                      disabled
+                    />
+                  </InputGroup>
+                </Form.Group>
                 <Form.Group as={Col} className="mb-3">
                   <InputGroup>
                     <InputGroup.Text>
