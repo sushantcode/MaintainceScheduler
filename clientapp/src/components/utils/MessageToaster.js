@@ -9,7 +9,8 @@ const MessageToaster = (props) => {
         show={props.show} 
         onClose={() => props.setShow(false)} delay={2500} 
         bg={props.variant}
-        autohide>
+        autohide
+      >
         <Toast.Body className='text-light fs-5'>
           {props.message}
         </Toast.Body>

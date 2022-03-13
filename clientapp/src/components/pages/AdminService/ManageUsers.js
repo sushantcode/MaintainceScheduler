@@ -270,7 +270,7 @@ const ManageUsers = () => {
       )
     })
     :
-    '';
+    null;
   
   return (
     <Container>

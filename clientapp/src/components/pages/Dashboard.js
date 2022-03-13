@@ -8,6 +8,7 @@ import {
         faPlusCircle,
         faListCheck,
         faChartBar,
+        faPlus,
   } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -28,8 +29,9 @@ const Dashboard = () => {
         <Col className='border text-center'>
           <Link to={"recordNewMaintenance"}>
             <Button variant='outline-secondary' className='fw-bold fs-2 my-4'>
-              <FontAwesomeIcon icon={faScrewdriverWrench} className="pe-3" />
-              Record New Service
+              <FontAwesomeIcon icon={faPlusCircle} className="pe-1" /> 
+              <FontAwesomeIcon icon={faScrewdriverWrench} className="pe-3" /> <br />
+              New Maintenance
             </Button>
           </Link>
         </Col>

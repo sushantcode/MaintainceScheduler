@@ -92,17 +92,6 @@ public class UserController {
         }
     }
 
-    @DeleteMapping("/removeMachine")
-    public ResponseEntity<?> removeMachine(@RequestParam String machineId) {
-        try {
-            machineService.removeMachine(machineId);
-            return new ResponseEntity<>("Machine has been removed successfully", HttpStatus.OK);
-        }
-        catch (RuntimeException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-        }
-    }
-
     @DeleteMapping("/removeMachinePart")
     public ResponseEntity<?> removeMachinePart(
             @RequestParam String machineId,
