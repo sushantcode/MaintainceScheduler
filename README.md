@@ -149,9 +149,10 @@ package.json
 ```
 
 ### Some Screenshots of working application
-![login](https://github.com/sushantcode/MaintainceScheduler/blob/main/Screenshots/login.png) |
 
-![dashboard](https://github.com/sushantcode/MaintainceScheduler/blob/main/Screenshots/dashboard.png)
+Solarized dark             |  Solarized Ocean
+:-------------------------:|:-------------------------:
+![login](https://github.com/sushantcode/MaintainceScheduler/blob/main/Screenshots/login.png) | ![dashboard](https://github.com/sushantcode/MaintainceScheduler/blob/main/Screenshots/dashboard.png)
 
 ![admin](https://github.com/sushantcode/MaintainceScheduler/blob/main/Screenshots/admin_portal.png)
 
