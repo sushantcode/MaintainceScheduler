@@ -10,8 +10,8 @@ const Footer = () => {
   return (
     <Navbar fixed='bottom' bg='dark' variant='dark'>
       <Container>
-        <Col lg={12} className="text-center text-muted">
-          <div>
+        <Col className="text-center text-muted">
+          <div className='text-center'>
             &copy;{year} - {year - 1}, All Rights Reserved by Sushant Gupta
           </div>
         </Col>

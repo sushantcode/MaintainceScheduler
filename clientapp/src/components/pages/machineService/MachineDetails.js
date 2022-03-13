@@ -110,14 +110,26 @@ const MachineDetails = (props) => {
           <tr>
             <td>
               <Button 
-                className='fs-6 fw-bold me-4' 
+                className='fs-6 fw-bold' 
                 onClick={() => {
                   setShow(true)
                   setWhat('updateInfo');
                 }}
               >
-                <FontAwesomeIcon icon={faPenToSquare} className='pe-2' />
+                <FontAwesomeIcon icon={faPenToSquare} />
                 Edit
+              </Button>
+            </td>
+            <td>
+              <Button 
+                className='fs-6 fw-bold me-4'
+                onClick={() => {
+                  setShow(true)
+                  setWhat('addNewPart');
+                }}
+              >
+                <FontAwesomeIcon icon={faPlusCircle} className='pe-2' />
+                Add New Part
               </Button>
               {
                 (AuthenticationService.getLoggedInUserRole() === 'ADMIN') &&
@@ -130,18 +142,6 @@ const MachineDetails = (props) => {
                   Remove Machine
                 </Button>
               }
-            </td>
-            <td>
-              <Button 
-                className='fs-6 fw-bold'
-                onClick={() => {
-                  setShow(true)
-                  setWhat('addNewPart');
-                }}
-              >
-                <FontAwesomeIcon icon={faPlusCircle} className='pe-2' />
-                Add New Part
-              </Button>
             </td>
           </tr>
           <tr>
