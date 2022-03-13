@@ -149,7 +149,7 @@ package.json
 ```
 
 ### Some Screenshots of working application
-![login](https://github.com/sushantcode/MaintainceScheduler/blob/main/Screenshots/login.png)
+![login](https://github.com/sushantcode/MaintainceScheduler/blob/main/Screenshots/login.png) |
 
 ![dashboard](https://github.com/sushantcode/MaintainceScheduler/blob/main/Screenshots/dashboard.png)
 
