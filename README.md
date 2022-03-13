@@ -150,25 +150,29 @@ package.json
 
 ### Some Screenshots of working application
 
-Login Page            |  Dashboard
+Login Page            |  Change Password Dashboard
 :-------------------------:|:-------------------------:
-![login](https://github.com/sushantcode/MaintainceScheduler/blob/main/Screenshots/login.png) | ![dashboard](https://github.com/sushantcode/MaintainceScheduler/blob/main/Screenshots/dashboard.png)
+![login](https://github.com/sushantcode/MaintainceScheduler/blob/main/Screenshots/login.png) | ![change_password](https://github.com/sushantcode/MaintainceScheduler/blob/main/Screenshots/change_password.png)
+
+Dashboard (Desktop)          |  Dashboard (Mobile)
+:-------------------------:|:-------------------------:
+![dashboard](https://github.com/sushantcode/MaintainceScheduler/blob/main/Screenshots/dashboard.png) | ![res_dashboard](https://github.com/sushantcode/MaintainceScheduler/blob/main/Screenshots/responsive_dashboard.png)
 
 Admin Portal            |  User Profile
 :-------------------------:|:-------------------------:
 ![admin](https://github.com/sushantcode/MaintainceScheduler/blob/main/Screenshots/admin_portal.png) | ![profile](https://github.com/sushantcode/MaintainceScheduler/blob/main/Screenshots/admin_profile.png)
 
-Api Usages Tracking           |  Existing Machine List
+Api Usages Tracking           |  Manage Users
 :-------------------------:|:-------------------------:
-![api_usages](https://github.com/sushantcode/MaintainceScheduler/blob/main/Screenshots/api_usages.png) | ![machine_list](https://github.com/sushantcode/MaintainceScheduler/blob/main/Screenshots/machine_list.png)
+![api_usages](https://github.com/sushantcode/MaintainceScheduler/blob/main/Screenshots/api_usages.png) | ![manage_users](https://github.com/sushantcode/MaintainceScheduler/blob/main/Screenshots/manage_users.png)
 
-Manage Users           |  Record New Maintenance
+Existing Machine List (Desktop)    |  Existing Machine List (Mobile)
 :-------------------------:|:-------------------------:
-![manage_users](https://github.com/sushantcode/MaintainceScheduler/blob/main/Screenshots/manage_users.png) | ![new_maintenance](https://github.com/sushantcode/MaintainceScheduler/blob/main/Screenshots/new_maintenance.png)
+![machine_list](https://github.com/sushantcode/MaintainceScheduler/blob/main/Screenshots/machine_list.png) | ![res_machine_list](https://github.com/sushantcode/MaintainceScheduler/blob/main/Screenshots/responsive_machineList.png)
 
-Select Machine Modal            |  Change Password
+Select Machine Modal            |  Add New Maintenance
 :-------------------------:|:-------------------------:
-![machine_modal](https://github.com/sushantcode/MaintainceScheduler/blob/main/Screenshots/machine_modal.png) | ![change_password](https://github.com/sushantcode/MaintainceScheduler/blob/main/Screenshots/change_password.png)
+![machine_modal](https://github.com/sushantcode/MaintainceScheduler/blob/main/Screenshots/machine_modal.png) | ![new_maintenance](https://github.com/sushantcode/MaintainceScheduler/blob/main/Screenshots/new_maintenance.png)
 
 Welcome Page            |  Generate Report Page
 :-------------------------:|:-------------------------:
