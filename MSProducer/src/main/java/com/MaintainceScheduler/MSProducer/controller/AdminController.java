@@ -3,6 +3,7 @@ package com.MaintainceScheduler.MSProducer.controller;
 import com.MaintainceScheduler.MSProducer.ApplicationStaticProperties;
 import com.MaintainceScheduler.MSProducer.model.ApiUsage;
 import com.MaintainceScheduler.MSProducer.service.ApiUsageService;
+import com.MaintainceScheduler.MSProducer.service.MachineService;
 import com.MaintainceScheduler.MSProducer.userAuthentication.CustomUser;
 import com.MaintainceScheduler.MSProducer.userAuthentication.User;
 import com.MaintainceScheduler.MSProducer.userAuthentication.UserRegistrationRequest;
@@ -29,6 +30,9 @@ public class AdminController {
 
     @Autowired
     private ApiUsageService apiUsageService;
+
+    @Autowired
+    private MachineService machineService;
 
     @GetMapping
     public String getAdmin() {
@@ -124,6 +128,18 @@ public class AdminController {
             return new ResponseEntity<>(apiUsageList, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @DeleteMapping("/removeMachine")
+    public ResponseEntity<?> removeMachine(@RequestParam String machineId) {
+        logger.info("Requested to remove machine with id " + machineId);
+        try {
+            machineService.removeMachine(machineId);
+            return new ResponseEntity<>("Machine has been removed successfully", HttpStatus.OK);
+        }
+        catch (RuntimeException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 }

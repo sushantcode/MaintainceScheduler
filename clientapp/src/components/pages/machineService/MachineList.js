@@ -10,16 +10,23 @@ const MachineList = () => {
   const [machines, setMachines] = useState();
   const [error, setError] = useState();
   const [updated, setUpdated] = useState(false);
+  const [defaultActiveKey, setDefaultActiveKey] = useState('52e5117c-6c25-422e-a4f0-9cbec6c522fe');
 
   useEffect(() => {
-    if (!AuthenticationService.isUserLoggedIn()) {
+    let isSubscribed = true;
+    if (!AuthenticationService.isUserLoggedIn() && isSubscribed) {
       navigate('/login');
     }
+    return () => (isSubscribed = false);
   }, [navigate]);
 
   useEffect(() => {
-    getMachines();
-    setUpdated(false);
+    let isSubscribed = true;
+    if (isSubscribed) {
+      getMachines();
+      setUpdated(false);
+    }
+    return () => (isSubscribed = false);
   }, [updated]);
 
   function getMachines() {
@@ -36,9 +43,8 @@ const MachineList = () => {
     })
     .catch((err) => {
       setMachines(null);
-      console.log(err.message);
       setError(err.message);
-    })
+    });
   };
 
   let machineList = machines ? machines.map((data, index) => {
@@ -56,7 +62,12 @@ const MachineList = () => {
   let machineDescription = machines ? machines.map((machine) => {
     return (
       <Tab.Pane eventKey={machine.id} key={machine.id}>
-        <MachineDetails data={machine} setUpdated={setUpdated} />
+        <MachineDetails 
+          data={machine}
+          setDefaultActiveKey={setDefaultActiveKey}
+          getMachines={getMachines}
+          setUpdated={setUpdated}
+        />
       </Tab.Pane>
     )
   })
@@ -64,7 +75,7 @@ const MachineList = () => {
   null;
 
   let returnValue = machineList ?
-  <Tab.Container defaultActiveKey='52e5117c-6c25-422e-a4f0-9cbec6c522fe'>
+  <Tab.Container defaultActiveKey={defaultActiveKey}>
     <Row className='mt-4'>
       <Col sm={4} className='mb-4'>
         <Nav variant="pills" className="flex-column">

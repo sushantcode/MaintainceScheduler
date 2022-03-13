@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, ListGroup, Table } from 'react-bootstrap';
+import { Button, ListGroup, Modal, Table } from 'react-bootstrap';
 import { 
   faPenToSquare, 
   faPlusCircle,
@@ -9,6 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import MachineUpdateModal from './MachineUpdateModal';
 import PartActionModal from './PartActionModal';
 import MessageToaster from '../../utils/MessageToaster';
+import AuthenticationService, { API_URL } from '../../utils/AuthenticationService';
 
 const MachineDetails = (props) => {
   const [machine, setMachine] = useState(props.data);
@@ -16,13 +17,91 @@ const MachineDetails = (props) => {
   const [partActionShow, setPartActionShow] = useState(false);
   const [what, setWhat] = useState('');
   const [selectPart, setSelectPart] = useState();
-
+  const [successDelete, setSuccessDelete] = useState(false);
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
+  const [error, setError] = useState();
+  const [confirmAction, setConfirmAction] = useState(false);
+  const [processing, setProcessing] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+
+  function reloadPage() {
+    window.location.reload();
+  }
 
   useEffect(() => {
     setMachine(props.data);
   }, [props]);
+
+  useEffect(() => {
+    if (confirmAction) {
+      removeMachine();
+    }
+    return () => {
+      setConfirmAction(false);
+      props.getMachines();
+    }
+  // eslint-disable-next-line
+  }, [confirmAction]);
+
+  function removeMachine() {
+    const url = API_URL + '/admin/removeMachine?machineId=' + machine.id;
+    AuthenticationService.Axios().delete(url)
+    .then(() => {
+      setSuccessDelete(true);
+      setError();
+      setShowToast(true);
+      setShowDeleteModal(false);
+      setProcessing(false);
+      reloadPage();
+    })
+    .catch((err) => {
+      setSuccessDelete(false);
+      setError(err.message);
+      setShowToast(true);
+      setShowDeleteModal(false);
+      setProcessing(false);
+    });
+  };
+
+  let confirmationModal = (
+    <Modal
+      show={showDeleteModal}
+      size="lg"
+      aria-labelledby="contained-modal-title-vcenter"
+      centered
+      backdrop="static"
+      keyboard={false}
+      onHide={() => {
+        setShowDeleteModal(false);
+      }}
+    >
+      <Modal.Body>
+        <h4>
+          {processing ? "Request processing..." : "Do you really want to proceed?"}
+        </h4>
+      </Modal.Body>
+      <Modal.Footer>
+        <Button
+          disabled={processing}
+          onClick={() => {
+              setProcessing(true);
+              setConfirmAction(true);
+            }}
+        >
+          Yes
+        </Button>
+        <Button
+          disabled={processing}
+          onClick={() => {
+            setConfirmAction(false);
+            setShowDeleteModal(false);
+          }}>
+          No
+        </Button>
+      </Modal.Footer>
+    </Modal>
+  );
 
   return (
     <>
@@ -31,7 +110,7 @@ const MachineDetails = (props) => {
           <tr>
             <td>
               <Button 
-                className='fs-6 fw-bold' 
+                className='fs-6 fw-bold me-4' 
                 onClick={() => {
                   setShow(true)
                   setWhat('updateInfo');
@@ -40,6 +119,17 @@ const MachineDetails = (props) => {
                 <FontAwesomeIcon icon={faPenToSquare} className='pe-2' />
                 Edit
               </Button>
+              {
+                (AuthenticationService.getLoggedInUserRole() === 'ADMIN') &&
+                <Button 
+                  className='fs-6 fw-bold'
+                  variant='danger'
+                  onClick={() => setShowDeleteModal(true)}
+                >
+                  <FontAwesomeIcon icon={faTrashCan} className='pe-2' />
+                  Remove Machine
+                </Button>
+              }
             </td>
             <td>
               <Button 
@@ -166,6 +256,26 @@ const MachineDetails = (props) => {
           message={toastMessage}
         />
       }
+      {
+        successDelete &&
+        <MessageToaster
+          show={showToast}
+          setShow={setShowToast}
+          variant={
+            successDelete ?
+            "success"
+            :
+            "danger"
+          }
+          message={
+            successDelete ?
+            "Successfully deleted the machine"
+            :
+            (error ? error : "Could not remove the machine!!!")
+          }
+        />
+      }
+      { confirmationModal }
     </>
   )
 }
