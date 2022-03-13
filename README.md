@@ -154,7 +154,7 @@ Login Page            |  Dashboard
 :-------------------------:|:-------------------------:
 ![login](https://github.com/sushantcode/MaintainceScheduler/blob/main/Screenshots/login.png) | ![dashboard](https://github.com/sushantcode/MaintainceScheduler/blob/main/Screenshots/dashboard.png)
 
-Admin Portal            |  Dashboard
+Admin Portal            |  User Profile
 :-------------------------:|:-------------------------:
 ![admin](https://github.com/sushantcode/MaintainceScheduler/blob/main/Screenshots/admin_portal.png) | ![profile](https://github.com/sushantcode/MaintainceScheduler/blob/main/Screenshots/admin_profile.png)
 
@@ -169,6 +169,10 @@ Manage Users           |  Record New Maintenance
 Select Machine Modal            |  Change Password
 :-------------------------:|:-------------------------:
 ![machine_modal](https://github.com/sushantcode/MaintainceScheduler/blob/main/Screenshots/machine_modal.png) | ![change_password](https://github.com/sushantcode/MaintainceScheduler/blob/main/Screenshots/change_password.png)
+
+Welcome Page            |  Generate Report Page
+:-------------------------:|:-------------------------:
+![welcome_page](https://github.com/sushantcode/MaintainceScheduler/blob/main/Screenshots/welcome_page.png) | ![reports](https://github.com/sushantcode/MaintainceScheduler/blob/main/Screenshots/reports.png)
 
 ## Authors
 
